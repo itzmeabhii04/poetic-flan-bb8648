@@ -1,16 +1,49 @@
 {
+  "id": "/",
   "name": "PG CA Manager",
   "short_name": "PG Manager",
-  "description": "Rooms, rent, electricity bills, WhatsApp reminders and CA ledger for PG owners",
-  "start_url": "./",
-  "scope": "./",
+  "description": "Rent collection, electricity sub-meter audit, WhatsApp reminders and a CA-ready profit & tax ledger for PG and hostel owners. Works fully offline.",
+  "lang": "en-IN",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "orientation": "portrait",
   "background_color": "#0B0B0C",
-  "theme_color": "#0B0B0C",
+  "theme_color": "#FF7A1A",
+  "categories": ["finance", "business", "utilities"],
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "launch_handler": { "client_mode": "navigate-existing" },
+  "handle_links": "preferred",
   "icons": [
-    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
-    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
-    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Add Room",
+      "short_name": "Add Room",
+      "description": "Add a new room and tenant",
+      "url": "/?action=add_room",
+      "icons": [{ "src": "/icons/shortcut-room.png", "sizes": "96x96", "type": "image/png" }]
+    },
+    {
+      "name": "CA Ledger",
+      "short_name": "CA Ledger",
+      "description": "Open the monthly P&L and tax ledger",
+      "url": "/?tab=ca",
+      "icons": [{ "src": "/icons/shortcut-ca.png", "sizes": "96x96", "type": "image/png" }]
+    },
+    {
+      "name": "Meter Readings",
+      "short_name": "Meter",
+      "description": "Log electricity sub-meter readings",
+      "url": "/?tab=meter",
+      "icons": [{ "src": "/icons/shortcut-meter.png", "sizes": "96x96", "type": "image/png" }]
+    }
   ]
 }
