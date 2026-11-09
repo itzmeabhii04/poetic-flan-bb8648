@@ -1,189 +1,965 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
+<html lang="en-IN" dir="ltr">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0B0B0C">
-<link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes">
 <title>PG CA Manager</title>
-<style>
-:root{--bg:#0B0B0C;--s1:#161618;--s2:#202024;--bd:#2C2C32;--tx:#F4F4F5;--mu:#9A9AA3;--or:#FF7A1A;--gr:#3DDC84;--rd:#FF5A5F;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-#app{max-width:480px;margin:0 auto;padding:16px 16px 96px}
-h1{font-size:26px;margin:2px 0 14px}h2{font-size:14px;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin:22px 0 10px}
-.pg{color:var(--or);font-weight:700;font-size:13px;letter-spacing:.08em}
-.card{background:var(--s1);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:12px}
-.rw{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.mu{color:var(--mu);font-size:14px}.o{color:var(--or)}.g{color:var(--gr)}.r{color:var(--rd)}
-.amt{font-size:20px;font-weight:800;color:var(--or)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}
-.st{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:10px}.st span{display:block;color:var(--mu);font-size:12px}.st b{font-size:17px}
-.mon{display:flex;align-items:center;justify-content:space-between;background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:6px;margin-bottom:14px}
-.ib{width:48px;height:48px;border:0;border-radius:10px;background:var(--s2);color:var(--tx);font-size:24px}.ib:disabled{opacity:.3}
-.btn{min-height:52px;padding:0 16px;border-radius:14px;border:1px solid transparent;font:600 16px system-ui,sans-serif;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer}
-.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.acts .btn{flex:1 1 140px}
-.pri{background:var(--or);color:#111}.gh{background:var(--s2);color:var(--tx);border-color:var(--bd)}.ok{background:transparent;border-color:var(--gr);color:var(--gr)}.wa{background:#1FA855;color:#fff}.dng{background:transparent;border-color:var(--rd);color:var(--rd)}.full{width:100%;margin-top:10px}.sm{min-height:44px}
-input,textarea,select{width:100%;min-height:52px;background:var(--s2);border:1px solid var(--bd);border-radius:12px;color:var(--tx);padding:0 14px;font:16px system-ui,sans-serif;margin:6px 0 12px}
-textarea{padding:12px;min-height:90px}input:focus,textarea:focus,select:focus{outline:2px solid var(--or)}
-label{display:block;font-size:14px;color:var(--mu)}
-.gap{margin-top:8px}.gap input{margin:0;flex:1}.gap .btn{flex:0 0 auto}
-.pill{background:var(--s2);color:var(--mu);border-radius:99px;padding:3px 10px;font-size:13px;white-space:nowrap}.pill.g{color:var(--gr)}.pill.r{background:#3a1517;color:var(--rd)}.pill.o{background:#3a2210;color:var(--or)}
-.empty{text-align:center;color:var(--mu);padding:28px 10px;border:1px dashed var(--bd);border-radius:16px}
-.bill{margin-top:10px;padding-top:10px;border-top:1px solid var(--bd);font-size:15px;line-height:1.7}
-.sub{margin:4px 0 10px;color:var(--or);font-weight:700;font-size:13px}.room{cursor:pointer}.pad{margin-bottom:10px}
-.bar{display:flex;height:16px;border-radius:99px;overflow:hidden;background:var(--s2);margin:10px 0}.bar i{display:block;height:100%}
-.lg{display:flex;justify-content:space-between;font-size:14px;padding:3px 0}.lg u{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;text-decoration:none}
-.rep{white-space:pre;overflow-x:auto;font:12px/1.5 ui-monospace,Menlo,Consolas,monospace;background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:12px}
-#nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:#111113;border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px);z-index:10}
-#nav button{flex:1;min-height:60px;border:0;background:none;color:var(--mu);font:600 11px system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
-#nav button span{font-size:20px}#nav .on{color:var(--or)}
-.ovl{position:fixed;inset:0;display:flex;align-items:flex-end;justify-content:center;z-index:20;background:rgba(0,0,0,.65)}
-.sheet{width:100%;max-width:480px;max-height:92%;overflow:auto;background:var(--s1);border-radius:20px 20px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px))}
-.sheet h2{margin-top:0;color:var(--tx);font-size:20px;text-transform:none;letter-spacing:0}
-.dl{align-items:center;z-index:30;padding:16px}.dialog{background:var(--s1);border:1px solid var(--bd);border-radius:18px;padding:20px;max-width:360px;width:100%}
-#toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);background:#26262b;border:1px solid var(--or);color:#fff;padding:12px 18px;border-radius:12px;opacity:0;pointer-events:none;transition:.2s;z-index:40;max-width:90%}
-#toast.show{opacity:1;transform:translate(-50%,0)}#toast.bad{border-color:var(--rd)}
-@media print{#nav,.np,#ov,#toast{display:none!important}html,body{background:#fff;color:#000}.rep{border:0;color:#000;background:#fff;font-size:11px}}
-</style></head><body>
-<div id="app"></div><nav id="nav"></nav><div id="ov"></div><div id="toast"></div>
+<meta name="description" content="Rent collection, electricity sub-meter audit, WhatsApp reminders and a CA-ready profit &amp; tax ledger for PG and hostel owners. Works offline.">
+<meta name="theme-color" content="#FF7A1A">
+<meta name="color-scheme" content="dark">
+<meta name="application-name" content="PG CA Manager">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PG Manager">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+<link rel="icon" type="image/svg+xml" href="/icons/logo.svg">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
 <script>
-const KEY='pg_manager_data',TABS=[['home','🏠','Home'],['rooms','🛏️','Rooms'],['meter','⚡','Meter'],['ledger','📒','CA Ledger'],['setup','⚙️','Setup']];
-const CATS=[['Electricity','#FFB020'],['Water','#4DA3FF'],['Maid & Cleaning','#B57BFF'],['WiFi / Internet','#3DDC84'],['Maintenance & Repairs','#FF5A5F'],['Mess / Food','#FF7A1A'],['Taxes','#8A8A93'],['Miscellaneous','#E6E6EA']];
-const $=s=>document.querySelector(s);
-const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
-const pad=n=>String(n).padStart(2,'0'),pct=x=>x==null?'—':x.toFixed(1)+'%',dys=n=>n+(n===1?' day':' days');
-function today(){const d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
-function cm(){return today().slice(0,7)}
-function dim(m){return new Date(+m.slice(0,4),+m.slice(5),0).getDate()}
-function mname(m){return new Date(+m.slice(0,4),+m.slice(5)-1,1).toLocaleString('en-IN',{month:'long',year:'numeric'})}
-function fmtD(s){return new Date(+s.slice(0,4),+s.slice(5,7)-1,+s.slice(8,10)).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}
-function dueInfo(t,m){const mi=t.moveIn?+t.moveIn.slice(8,10):1,dd=Math.min(t.dueDay||mi,dim(m)),n=new Date(),a=new Date(+m.slice(0,4),+m.slice(5)-1,dd),b=new Date(n.getFullYear(),n.getMonth(),n.getDate());return{due:m+'-'+pad(dd),diff:Math.round((a-b)/864e5)}}
-function badge(d){return d<0?'<span class="pill r">Overdue '+dys(-d)+'</span>':d===0?'<span class="pill o">Due today</span>':'<span class="pill">Due in '+dys(d)+'</span>'}
-function sample(){const r={};r[cm()+'|1']={cur:1262,paid:false};
- return{owner:'',pg:'HNO 04Y',rate:8,nid:4,eid:3,rec:r,exp:[{id:1,date:cm()+'-03',cat:'WiFi / Internet',amt:999,note:'Monthly plan'},{id:2,date:cm()+'-05',cat:'Maid & Cleaning',amt:3000,note:''}],rooms:[
- {id:1,no:'101',start:1200,t:{name:'Rahul Sharma',phone:'9876543210',guardian:'9812345678',rent:6500,moveIn:'2026-08-05',dueDay:null}},
- {id:2,no:'102',start:845,t:{name:'Amit Verma',phone:'9123456780',guardian:'',rent:6000,moveIn:'2026-09-18',dueDay:20}},
- {id:3,no:'103',start:0,t:null}]}}
-function vd(s){if(typeof s!=='string'||!/^\d{4}-\d\d-\d\d$/.test(s))return false;const y=+s.slice(0,4),m=+s.slice(5,7),d=+s.slice(8,10),t=new Date(y,m-1,d);return y>=2000&&t.getFullYear()===y&&t.getMonth()===m-1&&t.getDate()===d}
-const fn=(x,def)=>typeof x==='number'&&isFinite(x)?x:def;
-function clean(d){if(!d||typeof d!=='object'||!Array.isArray(d.rooms)||!d.rec||typeof d.rec!=='object')return null;
- const seen={},rooms=[];
- d.rooms.forEach(r=>{if(!r||typeof r!=='object'||!Number.isInteger(r.id)||seen[r.id])return;seen[r.id]=1;const t=r.t&&typeof r.t==='object'?r.t:null;
-  rooms.push({id:r.id,no:String(r.no==null?r.id:r.no),start:Math.max(0,fn(r.start,0)),t:t?{name:String(t.name||'Tenant'),phone:String(t.phone||'').replace(/\D/g,'').slice(0,10),guardian:String(t.guardian||'').replace(/\D/g,'').slice(0,10),rent:Math.max(0,fn(t.rent,0)),moveIn:vd(t.moveIn)?t.moveIn:'',dueDay:Number.isInteger(t.dueDay)&&t.dueDay>=1&&t.dueDay<=31?t.dueDay:null}:null})});
- const rec={};for(const k in d.rec){const v=d.rec[k],q=k.split('|');if(v&&typeof v==='object'&&/^\d{4}-\d\d$/.test(q[0])&&seen[+q[1]])rec[k]={cur:v.cur==null?null:fn(v.cur,null),paid:v.paid===true}}
- const used={},exp=[];(Array.isArray(d.exp)?d.exp:[]).forEach(e=>{if(e&&typeof e==='object'&&vd(e.date)&&fn(e.amt,0)>0&&Number.isInteger(e.id)&&!used[e.id]){used[e.id]=1;exp.push({id:e.id,date:e.date,cat:CATS.some(c=>c[0]===e.cat)?e.cat:'Miscellaneous',amt:e.amt,note:String(e.note||'')})}});
- return{owner:String(d.owner||''),pg:String(d.pg||'My PG'),rate:Math.max(0,fn(d.rate,8)),rooms,rec,exp,nid:Math.max(0,...rooms.map(r=>r.id))+1,eid:Math.max(0,...exp.map(e=>e.id))+1}}
-function load(){let d=null;try{d=clean(JSON.parse(localStorage.getItem(KEY)))}catch(e){}return d||sample()}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
-let S=load(),tab='home',mon=cm(),edit=null,xs=false,dlg=null,exp='',tt;
-function R(id){return S.rooms.find(r=>r.id===id)}
-function act(r){return r.t&&!(r.t.moveIn&&r.t.moveIn.slice(0,7)>mon)}
-function get(r){return S.rec[mon+'|'+r.id]||{cur:null,paid:false}}
-function setRec(r,p){const k=mon+'|'+r.id;S.rec[k]=Object.assign({cur:null,paid:false},S.rec[k],p);save()}
-function lastCur(r,m){let b=null;for(const k in S.rec){const q=k.split('|');if(+q[1]===r.id&&q[0]<m&&S.rec[k].cur!=null&&(!b||q[0]>b.m))b={m:q[0],c:S.rec[k].cur}}return b?b.c:(r.start||0)}
-function bill(r){const g=get(r),p=lastCur(r,mon),has=g.cur!=null,u=has?+Math.max(0,g.cur-p).toFixed(2):0,e=u*S.rate;return{g,p,has,u,e,total:r.t.rent+e}}
-function toast(m,bad){const e=$('#toast');e.textContent=m;e.className='show'+(bad?' bad':'');clearTimeout(tt);tt=setTimeout(()=>{e.className=''},2600)}
-function ask(text,yes,fn){dlg={text,yes,fn};render()}
-function dlgYes(){if(!dlg)return;const f=dlg.fn;dlg=null;f()}
-function dlgNo(){dlg=null;render()}
-function dg(e){e.value=e.value.replace(/\D/g,'').slice(0,10)}
-function go(k){tab=k;edit=null;xs=false;dlg=null;scrollTo(0,0);render()}
-function shift(d){const p=mon.split('-').map(Number),n=new Date(p[0],p[1]-1+d,1),v=n.getFullYear()+'-'+pad(n.getMonth()+1);if(v>cm())return;mon=v;render()}
-function head(t,m){return'<div class="pg">'+esc(S.pg)+'</div><h1>'+t+'</h1>'+(m?'<div class="mon np"><button class="ib" onclick="shift(-1)" aria-label="Previous month">‹</button><b>'+mname(mon)+'</b><button class="ib" onclick="shift(1)" aria-label="Next month"'+(mon>=cm()?' disabled':'')+'>›</button></div>':'')}
-function wa(r,who){const b=bill(r),t=r.t,n=who==='g'?t.guardian:t.phone,di=dueInfo(t,mon);
- const L=[who==='g'?'Dear Guardian of '+t.name+',':'Hello '+t.name+',','Rent reminder for Room '+r.no+' – '+mname(mon)+':','Rent: '+inr(t.rent),b.has?'Electricity: '+b.u+' units × ₹'+S.rate+' = '+inr(b.e):'Electricity: to be added',(b.has?'Total: ':'Total (without electricity): ')+inr(b.total),(t.moveIn?'Move-in date: '+fmtD(t.moveIn)+'\n':'')+'Due date: '+fmtD(di.due),'Please pay at the earliest. Thank you.','– '+(S.owner||'PG Owner')+', '+S.pg];
- return'https://wa.me/91'+n+'?text='+encodeURIComponent(L.join('\n'))}
-function home(){const occ=S.rooms.filter(act);let due=0,got=0;const pend=[],pd=[];
- occ.forEach(r=>{const b=bill(r);b.di=dueInfo(r.t,mon);if(b.g.paid){pd.push([r,b]);got+=b.total}else{pend.push([r,b]);due+=b.total}});
- pend.sort((x,y)=>x[1].di.diff-y[1].di.diff);
- let h=head('Hello'+(S.owner?', '+esc(S.owner):''),1)+'<div class="stats"><div class="st"><span>Pending</span><b class="o">'+inr(due)+'</b></div><div class="st"><span>Collected</span><b class="g">'+inr(got)+'</b></div><div class="st"><span>Occupied</span><b>'+occ.length+'/'+S.rooms.length+'</b></div></div><h2>Pending rent</h2>';
- if(!occ.length)h+='<div class="empty">No tenants for this month. Open Rooms to add one.</div>';
- else if(!pend.length)h+='<div class="empty">All rent collected for this month 🎉</div>';
- pend.forEach(p=>{const r=p[0],b=p[1],t=r.t;
-  h+='<div class="card"><div class="rw"><div><b>'+esc(t.name)+'</b><div class="mu">Room '+esc(r.no)+'</div></div><div class="amt">'+inr(b.total)+'</div></div><div class="mu">Rent '+inr(t.rent)+' + Electricity '+(b.has?inr(b.e)+' ('+b.u+' units)':'<span class="o">meter not entered</span>')+'</div><div class="rw gap"><span class="mu">Due '+fmtD(b.di.due)+'</span>'+badge(b.di.diff)+'</div><div class="acts"><button class="btn ok" onclick="paid('+r.id+')">✓ Paid</button><a class="btn wa" target="_blank" rel="noopener" href="'+wa(r,'t')+'">WhatsApp tenant</a>'+(t.guardian?'<a class="btn wa" target="_blank" rel="noopener" href="'+wa(r,'g')+'">WhatsApp guardian</a>':'')+'</div></div>'});
- if(pd.length){h+='<h2>Paid</h2>';pd.forEach(p=>{h+='<div class="card rw"><div><b>'+esc(p[0].t.name)+'</b><div class="mu">Room '+esc(p[0].no)+' · '+inr(p[1].total)+'</div></div><button class="btn gh sm" onclick="unpaid('+p[0].id+')">Undo</button></div>'})}
- return h}
-function paid(id){const r=R(id);if(!r||!r.t||get(r).paid)return;const f=()=>{setRec(r,{paid:true});toast('Marked paid');render()};
- if(bill(r).has)f();else ask('Electricity reading is not entered for this month. Mark rent as paid anyway?','Mark paid',f)}
-function unpaid(id){const r=R(id);if(!r||!r.t)return;ask('Undo paid status for '+r.t.name+'?','Undo',()=>{setRec(r,{paid:false});render()})}
-function rooms(){let h=head('Rooms');
- S.rooms.forEach(r=>{const t=r.t;h+='<div class="card room" role="button" tabindex="0" onclick="openEdit('+r.id+')"><div class="rw"><div><b>Room '+esc(r.no)+'</b><div class="mu">'+(t?esc(t.name)+' · '+esc(t.phone):'Vacant')+'</div>'+(t&&t.moveIn?'<div class="mu">In '+fmtD(t.moveIn)+' · due day '+(t.dueDay||+t.moveIn.slice(8,10))+'</div>':'')+'</div><div style="text-align:right">'+(t?'<span class="amt">'+inr(t.rent)+'</span><div class="mu">per month</div>':'<span class="pill">Vacant</span>')+'</div></div></div>'});
- if(!S.rooms.length)h+='<div class="empty">No rooms yet.</div>';
- return h+'<button class="btn pri full" onclick="openEdit(0)">+ Add room</button>'}
-function openEdit(id){edit=id;xs=false;render()}
-function closeEdit(){edit=null;xs=false;render()}
-function sheet(){const r=edit?R(edit):{no:'',start:0,t:null},t=r.t||{};
- return'<div class="ovl"><div class="sheet"><h2>'+(edit?'Edit Room '+esc(r.no):'Add room')+'</h2><label>Room number<input id="f_no" maxlength="10" value="'+esc(r.no)+'"></label><label>Starting meter reading<input id="f_st" type="number" inputmode="decimal" min="0" value="'+(r.start||0)+'"></label><div class="sub">Tenant (leave blank if vacant)</div><label>Name<input id="f_n" value="'+esc(t.name)+'"></label><label>Phone (10 digits)<input id="f_p" inputmode="numeric" maxlength="10" oninput="dg(this)" value="'+esc(t.phone)+'"></label><label>Guardian phone (optional)<input id="f_g" inputmode="numeric" maxlength="10" oninput="dg(this)" value="'+esc(t.guardian)+'"></label><label>Monthly rent (₹)<input id="f_r" type="number" inputmode="numeric" min="0" value="'+(t.rent||'')+'"></label><label>Move-in date<input id="f_m" type="date" value="'+esc(t.moveIn)+'"></label><label>Rent due day, 1 to 31 (blank = move-in day)<input id="f_d" type="number" inputmode="numeric" min="1" max="31" value="'+(t.dueDay||'')+'"></label><div class="acts"><button class="btn pri" onclick="saveRoom()">Save</button><button class="btn gh" onclick="closeEdit()">Cancel</button></div>'+(edit&&r.t?'<button class="btn dng full" onclick="vacate()">Vacate tenant</button>':'')+(edit?'<button class="btn dng full" onclick="delRoom()">Delete room</button>':'')+'</div></div>'}
-function saveRoom(){const v=i=>document.getElementById(i).value.trim();
- const no=v('f_no'),st=parseFloat(v('f_st')||'0'),n=v('f_n'),p=v('f_p'),g=v('f_g'),rent=parseFloat(v('f_r')),mi=v('f_m'),dd=v('f_d');
- if(!no)return toast('Enter a room number',1);
- if(S.rooms.some(x=>x.no.toLowerCase()===no.toLowerCase()&&x.id!==edit))return toast('That room number already exists',1);
- if(!isFinite(st)||st<0)return toast('Starting reading must be 0 or more',1);
- let t=null;
- if(n||p||g||v('f_r')||mi||dd){
-  if(!n)return toast('Enter the tenant name',1);
-  if(!/^\d{10}$/.test(p))return toast('Tenant phone must be exactly 10 digits',1);
-  if(g&&!/^\d{10}$/.test(g))return toast('Guardian phone must be exactly 10 digits',1);
-  if(!isFinite(rent)||rent<=0)return toast('Enter the monthly rent',1);
-  if(mi&&!vd(mi))return toast('Enter a valid move-in date',1);
-  const dn=dd?parseInt(dd,10):null;if(dd&&(isNaN(dn)||dn<1||dn>31))return toast('Due day must be 1 to 31',1);
-  t={name:n,phone:p,guardian:g,rent:rent,moveIn:mi,dueDay:dn}}
- if(edit){const r=R(edit);r.no=no;r.start=st;r.t=t}else S.rooms.push({id:S.nid++,no:no,start:st,t:t});
- save();edit=null;toast('Saved');render()}
-function vacate(){const r=R(edit);if(!r||!r.t)return;ask('Remove '+r.t.name+' from Room '+r.no+'? Past records stay saved.','Vacate',()=>{r.t=null;save();edit=null;render()})}
-function delRoom(){const r=R(edit);if(!r)return;ask('Delete Room '+r.no+' and all its records?','Delete',()=>{S.rooms=S.rooms.filter(x=>x!==r);for(const k in S.rec)if(+k.split('|')[1]===r.id)delete S.rec[k];save();edit=null;render()})}
-function meter(){let h=head('Meter & bill',1)+'<div class="mu pad">Rate: ₹'+S.rate+' per unit</div>';
- const occ=S.rooms.filter(act);if(!occ.length)return h+'<div class="empty">No tenants for this month.</div>';
- occ.forEach(r=>{const b=bill(r);
-  h+='<div class="card"><div class="rw"><b>Room '+esc(r.no)+' · '+esc(r.t.name)+'</b>'+(b.g.paid?'<span class="pill g">Paid</span>':'')+'</div><div class="mu">Previous reading: <b>'+b.p+'</b></div><div class="rw gap"><input id="m'+r.id+'" type="number" inputmode="decimal" min="'+b.p+'" placeholder="Current reading" value="'+(b.has?b.g.cur:'')+'"><button class="btn pri" onclick="saveMeter('+r.id+')">Save</button></div>'+(b.has?'<div class="bill">'+b.u+' units × ₹'+S.rate+' = <b>'+inr(b.e)+'</b><br>Rent '+inr(r.t.rent)+' + electricity = <b class="o">'+inr(b.total)+'</b></div>':'')+'</div>'});
- return h}
-function saveMeter(id){const r=R(id),x=document.getElementById('m'+id).value.trim(),p=lastCur(r,mon);
- if(x==='')return toast('Enter the current reading',1);
- const c=parseFloat(x);if(!isFinite(c)||c<0)return toast('Reading must be a valid number',1);
- if(c<p)return toast('Current reading cannot be less than previous ('+p+')',1);
- setRec(r,{cur:c});toast('Reading saved');render()}
-function fin(){let got=0,pend=0;S.rooms.filter(act).forEach(r=>{const b=bill(r);if(b.g.paid)got+=b.total;else pend+=b.total});
- const ex=S.exp.filter(e=>e.date.slice(0,7)===mon).sort((a,b)=>b.date<a.date?-1:1),tot=ex.reduce((a,e)=>a+e.amt,0),by=CATS.map(c=>[c[0],c[1],ex.filter(e=>e.cat===c[0]).reduce((a,e)=>a+e.amt,0)]).filter(c=>c[2]>0);
- return{got,pend,ex,tot,by,net:got-tot,mar:got>0?(got-tot)/got*100:null,eff:got+pend>0?got/(got+pend)*100:null}}
-function ledger(){const f=fin();let h=head('CA Ledger',1)+'<div class="stats"><div class="st"><span>Gross revenue</span><b class="g">'+inr(f.got)+'</b></div><div class="st"><span>Expenses</span><b class="o">'+inr(f.tot)+'</b></div><div class="st"><span>Net profit</span><b class="'+(f.net<0?'r':'g')+'">'+(f.net<0?'−':'')+inr(Math.abs(f.net))+'</b></div></div><div class="stats" style="grid-template-columns:1fr 1fr"><div class="st"><span>Profit margin</span><b>'+pct(f.mar)+'</b></div><div class="st"><span>Collection efficiency</span><b>'+pct(f.eff)+'</b></div></div>';
- h+='<h2>Expense split</h2>';
- if(!f.tot)h+='<div class="empty">No expenses logged this month.</div>';
- else{h+='<div class="card"><div class="bar">'+f.by.map(c=>'<i style="width:'+(c[2]/f.tot*100)+'%;background:'+c[1]+'"></i>').join('')+'</div>'+f.by.map(c=>'<div class="lg"><span><u style="background:'+c[1]+'"></u>'+esc(c[0])+'</span><b>'+inr(c[2])+' · '+(c[2]/f.tot*100).toFixed(0)+'%</b></div>').join('')+'</div><h2>Entries</h2>';
-  f.ex.forEach(e=>{h+='<div class="card rw"><div><b>'+esc(e.cat)+'</b><div class="mu">'+fmtD(e.date)+(e.note?' · '+esc(e.note):'')+'</div></div><div style="text-align:right"><b class="o">'+inr(e.amt)+'</b><div><button class="btn dng sm" style="min-height:36px;padding:0 10px;margin-top:4px" onclick="delExp('+e.id+')">Delete</button></div></div></div>'})}
- return h+'<button class="btn pri full" onclick="xs=true;edit=null;render()">+ Add expense</button><button class="btn gh full" onclick="go(\'report\')">📄 CA tax report</button>'}
-function xsheet(){const d=today().slice(0,7)===mon?today():mon+'-01';
- return'<div class="ovl"><div class="sheet"><h2>Add expense</h2><label>Date<input id="x_d" type="date" value="'+d+'"></label><label>Category<select id="x_c">'+CATS.map(c=>'<option>'+esc(c[0])+'</option>').join('')+'</select></label><label>Amount (₹)<input id="x_a" type="number" inputmode="decimal" min="0" placeholder="0"></label><label>Note (optional)<input id="x_n" maxlength="60"></label><div class="acts"><button class="btn pri" onclick="saveExp()">Save</button><button class="btn gh" onclick="closeEdit()">Cancel</button></div></div></div>'}
-function saveExp(){const d=$('#x_d').value,c=$('#x_c').value,a=parseFloat($('#x_a').value),n=$('#x_n').value.trim();
- if(!vd(d))return toast('Pick a valid date',1);
- if(d.slice(0,7)>cm())return toast('Date cannot be in a future month',1);
- if(!CATS.some(x=>x[0]===c))return toast('Pick a category',1);
- if(!isFinite(a)||a<=0)return toast('Enter an amount above 0',1);
- S.exp.push({id:S.eid++,date:d,cat:c,amt:a,note:n});save();xs=false;mon=d.slice(0,7);toast('Expense added');render()}
-function delExp(id){ask('Delete this expense entry?','Delete',()=>{S.exp=S.exp.filter(e=>e.id!==id);save();render()})}
-function reportText(){const f=fin(),W=(s,n)=>String(s).slice(0,n).padEnd(n),L=['PG CA STATEMENT – '+S.pg,'Month: '+mname(mon)+'   Prepared by: '+(S.owner||'Owner'),'','RENT & ELECTRICITY',W('Room',6)+W('Tenant',14)+W('Rent',9)+W('Elec',8)+W('Total',9)+'Status'];
- S.rooms.filter(act).forEach(r=>{const b=bill(r);L.push(W(r.no,6)+W(r.t.name,14)+W(inr(r.t.rent),9)+W(b.has?inr(b.e):'-',8)+W(inr(b.total),9)+(b.g.paid?'Paid':'Pending'))});
- L.push('','Collected: '+inr(f.got)+'   Pending: '+inr(f.pend),'','EXPENSES');
- if(!f.ex.length)L.push('None');
- f.ex.slice().reverse().forEach(e=>L.push(W(e.date,12)+W(e.cat,24)+inr(e.amt)+(e.note?'  '+e.note:'')));
- L.push('Total expenses: '+inr(f.tot),'','SUMMARY','Gross revenue : '+inr(f.got),'Expenses      : '+inr(f.tot),'Net profit    : '+(f.net<0?'-':'')+inr(Math.abs(f.net)),'Profit margin : '+pct(f.mar),'Collection eff: '+pct(f.eff));return L.join('\n')}
-function report(){return head('CA tax report',1)+'<div class="rep" id="rp">'+esc(reportText())+'</div><div class="acts np"><button class="btn pri" onclick="doPrint()">🖨️ Print</button><button class="btn gh" onclick="cpyRep()">Copy text</button><button class="btn gh" onclick="go(\'ledger\')">Back</button></div>'}
-function doPrint(){try{window.print()}catch(e){toast('Print is blocked here. Use Copy text.',1)}}
-function cpyRep(){const t=document.createElement('textarea');t.value=reportText();t.style.cssText='position:fixed;opacity:0';document.body.appendChild(t);t.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}t.remove();toast(ok?'Report copied':'Copy failed. Select the text manually.',!ok)}
-function setup(){return head('Setup')+'<div class="card"><label>Your name<input id="s_o" placeholder="Owner name" value="'+esc(S.owner)+'"></label><label>PG name<input id="s_p" value="'+esc(S.pg)+'"></label><label>Electricity rate (₹ per unit)<input id="s_r" type="number" inputmode="decimal" min="0" step="0.5" value="'+S.rate+'"></label><button class="btn pri full" style="margin-top:0" onclick="saveSet()">Save settings</button></div><h2>Backup</h2><div class="card"><div class="mu">Data lives only on this device. Create a backup and keep the text somewhere safe, such as a Drive note or a WhatsApp chat with yourself.</div><textarea id="bk" placeholder="Backup text appears here. To restore, paste it here and tap Restore.">'+esc(exp)+'</textarea><div class="acts"><button class="btn gh" onclick="doExp()">Create backup</button><button class="btn gh" onclick="cpy()">Copy</button><button class="btn pri" onclick="doImp()">Restore</button></div></div><h2>Data</h2><div class="card"><button class="btn gh full" style="margin-top:0" onclick="fresh()">Remove sample data</button><button class="btn dng full" onclick="resetAll()">Erase everything</button></div>'}
-function saveSet(){const o=$('#s_o').value.trim(),p=$('#s_p').value.trim(),r=parseFloat($('#s_r').value);
- if(!p)return toast('Enter the PG name',1);if(!isFinite(r)||r<0)return toast('Enter a valid rate per unit',1);
- S.owner=o;S.pg=p;S.rate=r;save();toast('Settings saved');render()}
-function doExp(){exp=JSON.stringify(S);render();toast('Backup created')}
-function cpy(){const t=$('#bk');if(!t.value)return toast('Create a backup first',1);t.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}toast(ok?'Copied':'Selected: press and hold to copy',!ok)}
-function doImp(){const raw=$('#bk').value.trim();let d;
- try{d=clean(JSON.parse(raw))}catch(e){return toast('That is not a valid backup',1)}
- if(!d)return toast('Backup is missing data',1);
- exp=raw;ask('Replace all current data with this backup?','Restore',()=>{S=d;save();exp='';toast('Backup restored');render()})}
-function fresh(){ask('Remove all tenants, readings and expenses? Room numbers and settings stay.','Remove',()=>{S.rooms.forEach(r=>{r.t=null});S.rec={};S.exp=[];save();toast('Sample data removed');render()})}
-function resetAll(){ask('Erase ALL data, including rooms and settings?','Erase',()=>{S=Object.assign(sample(),{rooms:[],rec:{},exp:[],nid:1,eid:1,pg:'My PG'});save();exp='';render()})}
-function render(){if(edit&&!R(edit))edit=null;
- $('#app').innerHTML={home:home,rooms:rooms,meter:meter,ledger:ledger,setup:setup,report:report}[tab]();
- $('#nav').innerHTML=TABS.map(t=>'<button class="'+(t[0]===tab||(tab==='report'&&t[0]==='ledger')?'on':'')+'" onclick="go(\''+t[0]+'\')"><span>'+t[1]+'</span>'+t[2]+'</button>').join('');
- $('#ov').innerHTML=(edit!==null?sheet():'')+(xs?xsheet():'')+(dlg?'<div class="ovl dl"><div class="dialog"><p>'+esc(dlg.text)+'</p><div class="acts"><button class="btn pri" onclick="dlgYes()">'+esc(dlg.yes)+'</button><button class="btn gh" onclick="dlgNo()">Cancel</button></div></div></div>':'')}
-render();
-if(typeof navigator!=='undefined'&&'serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})});
-</script></body></html>
+if (window.tailwind) tailwind.config = {
+  theme: { extend: {
+    colors: { bg:'#0B0B0C', card:'#161618', field:'#202024', line:'#2C2C32', brand:'#FF7A1A', ok:'#3DDC84', bad:'#FF5A5F', muted:'#9A9AA3', ink:'#F4F4F5' },
+    fontFamily: { sans: ['Inter','system-ui','-apple-system','Segoe UI','Roboto','sans-serif'] }
+  } }
+};
+</script>
+<style>
+:root{--bg:#0B0B0C;--card:#161618;--field:#202024;--line:#2C2C32;--brand:#FF7A1A;--ok:#3DDC84;--bad:#FF5A5F;--tx:#F4F4F5;--mu:#9A9AA3;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--tx);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
+body{min-height:100vh;min-height:100dvh;overscroll-behavior-y:none}
+.num{font-variant-numeric:tabular-nums}
+.safe-top{padding-top:max(env(safe-area-inset-top),0px)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
+.fld{display:block;width:100%;height:48px;background:var(--field);border:1px solid var(--line);border-radius:12px;padding:0 14px;color:var(--tx);font:500 16px Inter,system-ui,sans-serif;appearance:none;-webkit-appearance:none}
+select.fld{background-image:linear-gradient(45deg,transparent 50%,#9A9AA3 50%),linear-gradient(135deg,#9A9AA3 50%,transparent 50%);background-position:calc(100% - 20px) 21px,calc(100% - 15px) 21px;background-size:5px 5px;background-repeat:no-repeat;padding-right:36px}
+textarea.fld{height:auto;min-height:76px;padding:12px 14px;resize:vertical}
+.fld:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px rgba(255,122,26,.22)}
+.fld.invalid{border-color:var(--bad);box-shadow:0 0 0 3px rgba(255,90,95,.18)}
+.fld::placeholder{color:#62626b}
+.lbl{display:block;font-size:11px;font-weight:700;color:var(--mu);margin:0 0 6px;text-transform:uppercase;letter-spacing:.06em}
+.err{color:var(--bad);font-size:12px;font-weight:500;margin-top:5px}
+.err:empty{display:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 16px;border-radius:12px;font:600 14px Inter,system-ui,sans-serif;border:1px solid transparent;white-space:nowrap;cursor:pointer;text-decoration:none;transition:transform .1s ease,filter .15s ease;user-select:none}
+.btn:active{transform:scale(.97)}
+.btn:hover{filter:brightness(1.08)}
+.btn:focus-visible,.ib:focus-visible,.tab:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.btn-brand{background:var(--brand);color:#1A0B00}
+.btn-ok{background:var(--ok);color:#03210F}
+.btn-ghost{background:var(--field);border-color:var(--line);color:var(--tx)}
+.btn-bad{background:rgba(255,90,95,.08);border-color:rgba(255,90,95,.45);color:var(--bad)}
+.btn-wa{background:rgba(61,220,132,.08);border-color:rgba(61,220,132,.35);color:var(--ok)}
+.btn-sm{height:36px;padding:0 12px;font-size:13px;border-radius:10px}
+.ib{width:42px;height:42px;display:inline-grid;place-items:center;border-radius:12px;background:var(--field);border:1px solid var(--line);color:var(--tx);cursor:pointer}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:800;padding:4px 9px;border-radius:999px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.b-over{background:rgba(255,90,95,.14);color:var(--bad);border:1px solid rgba(255,90,95,.4)}
+.b-today{background:var(--brand);color:#1A0B00;animation:pulse 1.6s ease-out infinite}
+.b-soon{background:var(--field);color:var(--mu);border:1px solid var(--line)}
+.b-ok{background:rgba(61,220,132,.12);color:var(--ok);border:1px solid rgba(61,220,132,.35)}
+.b-brand{background:rgba(255,122,26,.12);color:var(--brand);border:1px solid rgba(255,122,26,.35)}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,122,26,.65)}70%{box-shadow:0 0 0 9px rgba(255,122,26,0)}100%{box-shadow:0 0 0 0 rgba(255,122,26,0)}}
+.urg-over{border-color:rgba(255,90,95,.45)!important}
+.urg-today{border-color:rgba(255,122,26,.55)!important}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 0 8px;font-size:10.5px;font-weight:600;color:var(--mu);background:none;border:0;cursor:pointer}
+.tab i{font-size:18px}
+.tab.on{color:var(--brand)}
+.tab.on i{filter:drop-shadow(0 0 8px rgba(255,122,26,.5))}
+.navbar{padding-bottom:max(env(safe-area-inset-bottom),6px);background:rgba(11,11,12,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.sheet{max-height:92vh;max-height:92dvh;overflow:auto;padding-bottom:max(env(safe-area-inset-bottom),16px)}
+.fade-in{animation:fade .18s ease-out}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.slide-up{animation:slide .22s cubic-bezier(.2,.8,.2,1)}
+@keyframes slide{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+input[type=month]::-webkit-calendar-picker-indicator,input[type=date]::-webkit-calendar-picker-indicator{filter:invert(.7)}
+.mpick{background:transparent;border:0;color:var(--tx);font:700 16px Inter,system-ui,sans-serif;text-align:center;width:100%;padding:0}
+.mpick:focus{outline:none}
+.hr{height:1px;background:var(--line);margin:12px 0}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.scroll-x{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.tbl{width:100%;border-collapse:collapse;font-size:13px}
+table.tbl th{color:var(--mu);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.05em;text-align:right;padding:6px 4px;border-bottom:1px solid var(--line)}
+table.tbl td{padding:8px 4px;text-align:right;border-bottom:1px solid #1f1f23}
+table.tbl th:first-child,table.tbl td:first-child{text-align:left}
+#toast{bottom:calc(84px + env(safe-area-inset-bottom))}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ---------- Printable CA Auditor Tax Statement ---------- */
+#printDoc{display:none}
+@media print{
+  @page{size:A4;margin:14mm 12mm}
+  html,body{background:#fff!important;color:#111!important}
+  #shell,#modal,#toast{display:none!important}
+  #printDoc{display:block!important;font:10.5pt/1.45 Inter,Arial,sans-serif;color:#111}
+  #printDoc h1{font-size:17pt;margin:0;letter-spacing:-.01em}
+  #printDoc h2{font-size:11.5pt;margin:18px 0 6px;padding-bottom:4px;border-bottom:2px solid #111;text-transform:uppercase;letter-spacing:.05em}
+  #printDoc table{width:100%;border-collapse:collapse;margin-top:4px;page-break-inside:auto}
+  #printDoc tr{page-break-inside:avoid}
+  #printDoc th,#printDoc td{border:1px solid #bdbdbd;padding:4px 7px;text-align:left;vertical-align:top}
+  #printDoc th{background:#f1f1f1!important;font-weight:700;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #printDoc .r{text-align:right;font-variant-numeric:tabular-nums}
+  #printDoc .tot td{font-weight:800;background:#f7f7f7!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #printDoc .meta td{border:0;padding:1px 0}
+  #printDoc .muted{color:#555}
+  #printDoc .sign{display:flex;justify-content:space-between;margin-top:56px;gap:40px}
+  #printDoc .sign div{flex:1;border-top:1px solid #111;padding-top:6px;text-align:center;font-size:9.5pt}
+}
+</style>
+</head>
+<body>
+<div id="shell" class="min-h-screen">
+  <!-- Header -->
+  <header class="safe-top sticky top-0 z-30 bg-bg/90 backdrop-blur border-b border-line">
+    <div class="max-w-xl mx-auto px-4 h-16 flex items-center gap-3">
+      <svg class="w-10 h-10 shrink-0" viewBox="0 0 512 512" role="img" aria-label="PG CA Manager logo">
+        <rect width="512" height="512" rx="112" fill="#161618"/>
+        <rect x="10" y="10" width="492" height="492" rx="104" fill="none" stroke="#2C2C32" stroke-width="8"/>
+        <g transform="translate(0 -6)">
+          <path d="M120 400V196l136-84 136 84v204" fill="none" stroke="#FF7A1A" stroke-width="24" stroke-linejoin="round" stroke-linecap="round"/>
+          <path d="M92 400h328" stroke="#FF7A1A" stroke-width="24" stroke-linecap="round"/>
+          <rect x="166" y="300" width="36" height="78" rx="6" fill="#FF7A1A" opacity=".55"/>
+          <rect x="222" y="262" width="36" height="116" rx="6" fill="#FF7A1A" opacity=".8"/>
+          <rect x="278" y="224" width="36" height="154" rx="6" fill="#FF7A1A"/>
+          <path d="M160 270l60-38 44 22 76-70" fill="none" stroke="#3DDC84" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M312 180h30v30" fill="none" stroke="#3DDC84" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M356 300l42 15v30c0 28-19 47-42 56-23-9-42-28-42-56v-30z" fill="#161618" stroke="#3DDC84" stroke-width="11" stroke-linejoin="round"/>
+          <path d="M338 344l13 13 24-26" fill="none" stroke="#3DDC84" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+      </svg>
+      <div class="min-w-0 flex-1">
+        <div class="text-[17px] font-extrabold tracking-tight leading-tight">PG <span class="text-brand">CA</span> Manager</div>
+        <div id="hdrSub" class="text-xs text-muted truncate"></div>
+      </div>
+      <span id="netDot" class="badge b-ok" title="Connection status"><i class="fa-solid fa-circle text-[6px]"></i><span>Online</span></span>
+      <button id="installBtn" class="btn btn-brand btn-sm hidden" data-act="install"><i class="fa-solid fa-download"></i>Install</button>
+    </div>
+  </header>
+
+  <main id="view" class="max-w-xl mx-auto px-4 pt-4 pb-32"></main>
+
+  <!-- Bottom navigation -->
+  <nav class="navbar fixed bottom-0 inset-x-0 z-30 border-t border-line" aria-label="Main">
+    <div class="max-w-xl mx-auto flex" id="tabs">
+      <button class="tab" data-act="tab" data-id="home"><i class="fa-solid fa-house"></i>Home</button>
+      <button class="tab" data-act="tab" data-id="rooms"><i class="fa-solid fa-bed"></i>Rooms</button>
+      <button class="tab" data-act="tab" data-id="meter"><i class="fa-solid fa-bolt"></i>Meter</button>
+      <button class="tab" data-act="tab" data-id="ca"><i class="fa-solid fa-scale-balanced"></i>CA Ledger</button>
+      <button class="tab" data-act="tab" data-id="setup"><i class="fa-solid fa-gear"></i>Setup</button>
+    </div>
+  </nav>
+</div>
+
+<!-- Modal / bottom sheet -->
+<div id="modal" class="hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center" role="dialog" aria-modal="true">
+  <div class="absolute inset-0 bg-black/70" data-act="closeModal"></div>
+  <div id="sheet" class="sheet slide-up relative w-full max-w-xl bg-card border border-line rounded-t-3xl sm:rounded-3xl p-5"></div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="fixed inset-x-0 z-[60] px-4 pointer-events-none flex justify-center"></div>
+
+<!-- Print-only statement -->
+<section id="printDoc" aria-hidden="true"></section>
+
+<script>
+'use strict';
+/* =====================================================================
+   PG CA Manager — single-file offline PWA. All data lives in localStorage.
+   ===================================================================== */
+const KEY = 'pgca_manager_v2', VER = '2.0.0';
+const CATS = [
+  ['wifi',  'WiFi',        'fa-wifi',               '#5B8DEF'],
+  ['maid',  'Maid',        'fa-broom',              '#C17BFF'],
+  ['maint', 'Maintenance', 'fa-screwdriver-wrench', '#FFC145'],
+  ['mess',  'Mess',        'fa-utensils',           '#2EC4B6'],
+  ['water', 'Water',       'fa-droplet',            '#8BE9FD'],
+  ['tax',   'Taxes',       'fa-landmark',           '#FF8FA3'],
+  ['misc',  'Misc',        'fa-ellipsis',           '#9A9AA3']
+];
+const CAT = Object.fromEntries(CATS.map(c => [c[0], { key:c[0], name:c[1], icon:c[2], color:c[3] }]));
+const PHONE = /^\d{10}$/;
+
+/* ---------- helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
+const pad = n => String(n).padStart(2, '0');
+const isoDate = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const today = () => isoDate(new Date());
+const thisMonth = () => today().slice(0, 7);
+const sum = a => a.reduce((t, x) => t + (Number(x) || 0), 0);
+const inr = n => (n < 0 ? '−' : '') + '₹' + Math.abs(Math.round(Number(n) || 0)).toLocaleString('en-IN');
+const pct = n => (isFinite(n) ? (Math.round(n * 10) / 10) : 0) + '%';
+const dim = m => { const [y, mo] = m.split('-').map(Number); return new Date(y, mo, 0).getDate(); };
+const shiftM = (m, d) => { const [y, mo] = m.split('-').map(Number); const t = new Date(y, mo - 1 + d, 1); return `${t.getFullYear()}-${pad(t.getMonth() + 1)}`; };
+const mLabel = (m, long) => { const [y, mo] = m.split('-').map(Number); return new Date(y, mo - 1, 1).toLocaleDateString('en-IN', { month: long ? 'long' : 'short', year: 'numeric' }); };
+const dLabel = d => { if (!d) return '—'; const [y, m, dd] = d.split('-').map(Number); return new Date(y, m - 1, dd).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }); };
+const daysBetween = (a, b) => Math.round((new Date(b + 'T00:00:00') - new Date(a + 'T00:00:00')) / 864e5);
+const validDate = s => { if (!/^\d{4}-\d{2}-\d{2}$/.test(s || '')) return false; const [y, m, d] = s.split('-').map(Number); const t = new Date(y, m - 1, d); return t.getFullYear() === y && t.getMonth() === m - 1 && t.getDate() === d; };
+const validMonth = s => /^\d{4}-(0[1-9]|1[0-2])$/.test(s || '');
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const fyOf = m => { const [y, mo] = m.split('-').map(Number); const s = mo >= 4 ? y : y - 1; return { start: `${s}-04`, label: `FY ${s}-${String(s + 1).slice(2)}`, months: Array.from({ length: 12 }, (_, i) => shiftM(`${s}-04`, i)) }; };
+
+/* ---------- state ---------- */
+let S, TAB = 'home', M = thisMonth(), deferredPrompt = null, modalResolve = null;
+
+function blank() {
+  return { v: 2, owner: { name: '', pg: '', phone: '', address: '', pan: '', gstin: '' }, rate: 9, rooms: [], pay: {}, read: {}, exp: [] };
+}
+function normalize(d) {
+  if (d && d.data && d.app === 'pg-ca-manager') d = d.data;
+  if (!d || typeof d !== 'object' || !Array.isArray(d.rooms)) throw new Error('This file is not a PG CA Manager backup.');
+  const b = blank();
+  return {
+    ...b, ...d,
+    owner: { ...b.owner, ...(d.owner || {}) },
+    rate: Number(d.rate) >= 0 ? Number(d.rate) : b.rate,
+    rooms: d.rooms.filter(r => r && r.id),
+    pay: d.pay && typeof d.pay === 'object' ? d.pay : {},
+    read: d.read && typeof d.read === 'object' ? d.read : {},
+    exp: Array.isArray(d.exp) ? d.exp.filter(e => e && e.id && validDate(e.date)) : []
+  };
+}
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(S)); }
+  catch (e) { toast('Could not save — device storage is full. Export a backup.', 'bad'); }
+}
+function load() {
+  try { const raw = localStorage.getItem(KEY); if (raw) { S = normalize(JSON.parse(raw)); return; } } catch (e) { console.warn(e); }
+  S = blank(); seed(); save();
+}
+
+function seed() {
+  const m0 = thisMonth(), m1 = shiftM(m0, -1), m2 = shiftM(m0, -2), td = new Date().getDate();
+  S.sampleOwner = true;
+  S.owner = { name: 'Rajesh Sharma', pg: 'Sharma PG & Hostel', phone: '9876500000', address: '12, Sector 21, Gurugram, Haryana 122016', pan: 'ABCPS1234K', gstin: '' };
+  const R = (no, rent, dueDay, tenant, phone, guardian, gphone, moveIn, meterStart) =>
+    ({ id: uid(), no, rent, deposit: rent, dueDay, tenant, phone, guardian, gphone, moveIn, meterStart, sample: true });
+  const r1 = R('101', 8500, 5,  'Rahul Verma', '9876543210', 'Suresh Verma', '9812345678', m2 + '-01', 1200);
+  const r2 = R('102', 7500, td, 'Aman Gupta',  '9898989898', 'Meena Gupta',  '9811122233', m2 + '-04', 2000);
+  const r3 = R('103', 9000, 28, 'Priya Singh', '9765432109', 'Anil Singh',   '9700011122', m2 + '-10', 840);
+  const r4 = R('104', 7000, 1,  '', '', '', '', '', 3150);
+  const r5 = R('105', 8000, 3,  'Karan Mehta', '9822334455', '', '', m1 + '-01', 450);
+  S.rooms = [r1, r2, r3, r4, r5];
+  const rd = (m, r, v) => ((S.read[m] ??= {})[r.id] = { r: v, rate: 9 });
+  rd(m1, r1, 1260); rd(m1, r2, 2045); rd(m1, r3, 880); rd(m1, r5, 510);
+  rd(m0, r1, 1318); rd(m0, r2, 2101); rd(m0, r5, 566);
+  for (const r of [r1, r2, r3, r5]) recordPay(r, m1, `${m1}-${pad(Math.min(r.dueDay, dim(m1)))}`);
+  recordPay(r5, m0, `${m0}-${pad(Math.min(3, td))}`);
+  const E = (date, cat, amt, note) => S.exp.push({ id: uid(), date, cat, amt, note, sample: true });
+  E(m1 + '-02', 'wifi', 1499, 'Airtel fibre 200 Mbps'); E(m1 + '-05', 'maid', 6000, 'Housekeeping salary');
+  E(m1 + '-12', 'maint', 2500, 'Geyser repair, Room 103'); E(m1 + '-28', 'mess', 11500, 'Groceries & cook');
+  E(m1 + '-15', 'tax', 1800, 'Property tax instalment'); E(m1 + '-20', 'misc', 450, 'Cleaning supplies');
+  E(m0 + '-01', 'wifi', 1499, 'Airtel fibre 200 Mbps'); E(m0 + '-0' + Math.min(5, td), 'maid', 6000, 'Housekeeping salary');
+  E(m0 + '-0' + Math.min(3, td), 'water', 800, 'Water tanker'); E(m0 + '-0' + Math.min(7, td), 'mess', 12000, 'Groceries & cook');
+}
+
+/* ---------- domain logic ---------- */
+const room = id => S.rooms.find(r => r.id === id);
+const readingOf = (id, m) => S.read[m]?.[id] ?? null;
+function prevReading(r, m) {
+  let best = null;
+  for (const k of Object.keys(S.read)) if (k < m && S.read[k]?.[r.id] && (!best || k > best)) best = k;
+  return best ? { val: Number(S.read[best][r.id].r), from: best } : { val: Number(r.meterStart) || 0, from: null };
+}
+function nextReading(r, m) {
+  let best = null;
+  for (const k of Object.keys(S.read)) if (k > m && S.read[k]?.[r.id] && (!best || k < best)) best = k;
+  return best ? { val: Number(S.read[best][r.id].r), from: best } : null;
+}
+function elec(r, m) {
+  const e = readingOf(r.id, m); if (!e) return null;
+  const p = prevReading(r, m), units = Math.max(0, Number(e.r) - p.val), rate = Number(e.rate) || 0;
+  return { units, rate, amt: Math.round(units * rate), prev: p.val, cur: Number(e.r), from: p.from };
+}
+function bill(r, m) {
+  const e = elec(r, m), rent = Number(r.rent) || 0;
+  return { rent, elec: e ? e.amt : 0, units: e ? e.units : 0, rate: e ? e.rate : S.rate, metered: !!e, total: rent + (e ? e.amt : 0) };
+}
+const paidRec = (r, m) => S.pay[m]?.[r.id];
+const active = (r, m) => !!r.tenant && (!r.moveIn || r.moveIn.slice(0, 7) <= m);
+const dueOf = (r, m) => `${m}-${pad(Math.min(Number(r.dueDay) || 1, dim(m)))}`;
+function urgency(r, m) {
+  const d = daysBetween(today(), dueOf(r, m));
+  return d < 0 ? { k: 'over', d: -d } : d === 0 ? { k: 'today', d: 0 } : { k: 'soon', d };
+}
+function recordPay(r, m, on) {
+  const b = bill(r, m);
+  (S.pay[m] ??= {})[r.id] = { amt: b.total, rent: b.rent, elec: b.elec, units: b.units, on: on || today(), tenant: r.tenant, no: r.no };
+  return b;
+}
+function stats(m) {
+  const pays = Object.values(S.pay[m] || {});
+  const rentC = sum(pays.map(p => p.rent)), elecC = sum(pays.map(p => p.elec)), collected = rentC + elecC;
+  const pend = S.rooms.filter(r => active(r, m) && !paidRec(r, m));
+  const pending = sum(pend.map(r => bill(r, m).total));
+  const exps = S.exp.filter(e => e.date.slice(0, 7) === m);
+  const byCat = CATS.map(([k]) => ({ ...CAT[k], amt: sum(exps.filter(e => e.cat === k).map(e => e.amt)) }));
+  const expense = sum(exps.map(e => e.amt)), net = collected - expense;
+  const margin = collected ? net / collected * 100 : (expense ? -100 : 0);
+  const eff = collected + pending ? collected / (collected + pending) * 100 : null;
+  return { pays, rentC, elecC, collected, pend, pending, exps, byCat, expense, net, margin, eff };
+}
+
+/* ---------- UI primitives ---------- */
+function toast(msg, kind = 'info', action) {
+  const t = $('#toast'), id = uid();
+  const color = kind === 'bad' ? 'border-bad/50' : kind === 'ok' ? 'border-ok/50' : 'border-line';
+  const icon = kind === 'bad' ? 'fa-circle-exclamation text-bad' : kind === 'ok' ? 'fa-circle-check text-ok' : kind === 'warn' ? 'fa-triangle-exclamation text-brand' : 'fa-circle-info text-muted';
+  t.innerHTML = `<div id="t${id}" class="fade-in pointer-events-auto max-w-xl w-full bg-card border ${color} rounded-2xl shadow-2xl shadow-black/60 px-4 py-3 flex items-center gap-3" role="status">
+    <i class="fa-solid ${icon}"></i><div class="flex-1 text-sm font-medium">${esc(msg)}</div>
+    ${action ? `<button class="btn btn-ghost btn-sm" id="ta${id}">${esc(action.label)}</button>` : ''}</div>`;
+  if (action) $('#ta' + id).onclick = () => { t.innerHTML = ''; action.fn(); };
+  clearTimeout(toast.tm); toast.tm = setTimeout(() => { const el = $('#t' + id); if (el) el.remove(); }, action ? 6500 : 3500);
+}
+function openModal(html) {
+  $('#sheet').innerHTML = `<div class="w-10 h-1.5 rounded-full bg-line mx-auto mb-4 sm:hidden"></div>${html}`;
+  $('#modal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  if (!history.state?.modal) history.pushState({ modal: 1 }, '');
+  setTimeout(() => $('#sheet [autofocus]')?.focus(), 60);
+}
+function closeModal(fromPop) {
+  if ($('#modal').classList.contains('hidden')) return;
+  $('#modal').classList.add('hidden'); $('#sheet').innerHTML = ''; document.body.style.overflow = '';
+  if (modalResolve) { const r = modalResolve; modalResolve = null; r(null); }
+  if (!fromPop && history.state?.modal) history.back();
+}
+window.addEventListener('popstate', () => closeModal(true));
+function choose({ title, msg, icon = 'fa-circle-question', tone = 'brand', buttons }) {
+  return new Promise(res => {
+    openModal(`<div class="text-center px-2">
+      <div class="w-14 h-14 rounded-2xl mx-auto grid place-items-center text-2xl ${tone === 'bad' ? 'bg-bad/10 text-bad' : 'bg-brand/10 text-brand'}"><i class="fa-solid ${icon}"></i></div>
+      <h3 class="text-lg font-bold mt-3">${esc(title)}</h3><p class="text-sm text-muted mt-2 leading-relaxed">${msg}</p></div>
+      <div class="grid gap-2 mt-5">${buttons.map((b, i) => `<button class="btn ${b.cls || 'btn-ghost'} h-12" data-choice="${i}">${b.icon ? `<i class="fa-solid ${b.icon}"></i>` : ''}${esc(b.label)}</button>`).join('')}
+      <button class="btn btn-ghost h-12" data-choice="-1">Cancel</button></div>`);
+    modalResolve = res;
+    $('#sheet').querySelectorAll('[data-choice]').forEach(el => el.onclick = () => {
+      const i = Number(el.dataset.choice); const r = modalResolve; modalResolve = null; closeModal(); r(i < 0 ? null : buttons[i].value);
+    });
+  });
+}
+const confirmBox = (title, msg, okLabel, tone = 'bad', icon = 'fa-triangle-exclamation') =>
+  choose({ title, msg, tone, icon, buttons: [{ label: okLabel, value: true, cls: tone === 'bad' ? 'btn-bad' : 'btn-brand' }] }).then(Boolean);
+
+const monthBar = () => `
+  <div class="card !p-2 flex items-center gap-2 mb-4">
+    <button class="ib" data-act="mprev" aria-label="Previous month"><i class="fa-solid fa-chevron-left"></i></button>
+    <label class="flex-1 text-center cursor-pointer">
+      <span class="block text-[10px] font-bold uppercase tracking-[.12em] text-muted">${esc(mLabel(M, true))}${M === thisMonth() ? ' · current' : ''}</span>
+      <input type="month" class="mpick num" value="${M}" data-change="month" aria-label="Select month (YYYY-MM)">
+    </label>
+    ${M !== thisMonth() ? `<button class="ib text-brand" data-act="mnow" aria-label="Go to current month"><i class="fa-solid fa-calendar-day"></i></button>` : ''}
+    <button class="ib" data-act="mnext" aria-label="Next month"><i class="fa-solid fa-chevron-right"></i></button>
+  </div>`;
+const tile = (label, value, icon, cls, sub) => `
+  <div class="card !p-3.5">
+    <div class="flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-muted"><i class="fa-solid ${icon} ${cls}"></i>${label}</div>
+    <div class="num text-[22px] font-extrabold mt-1.5 ${cls} leading-none">${value}</div>
+    ${sub ? `<div class="text-[11px] text-muted mt-1.5 num">${sub}</div>` : ''}
+  </div>`;
+const field = (name, label, attrs = '', val = '', hint = '') => `
+  <div><label class="lbl" for="f_${name}">${label}</label>
+  <input id="f_${name}" name="${name}" class="fld" value="${esc(val)}" ${attrs}>
+  ${hint ? `<p class="text-[11px] text-muted mt-1">${hint}</p>` : ''}<p class="err" data-err="${name}"></p></div>`;
+const empty = (icon, title, sub, btn) => `
+  <div class="card text-center py-10"><div class="w-14 h-14 rounded-2xl bg-field mx-auto grid place-items-center text-xl text-muted"><i class="fa-solid ${icon}"></i></div>
+  <div class="font-bold mt-3">${title}</div><p class="text-sm text-muted mt-1">${sub}</p>${btn || ''}</div>`;
+const section = (title, right = '') => `<div class="row mt-6 mb-3"><h2 class="text-xs font-bold uppercase tracking-[.12em] text-muted">${title}</h2>${right}</div>`;
+
+/* ---------- WhatsApp ---------- */
+function wa(phone, text) { return `https://wa.me/91${phone}?text=${encodeURIComponent(text)}`; }
+function tenantMsg(r, m, b, u) {
+  const o = S.owner, lines = [
+    `Hi ${r.tenant},`, ``, `Gentle reminder from *${o.pg || 'your PG'}*.`, ``,
+    `*Rent for ${mLabel(m, true)}* — Room ${r.no}`,
+    `• Rent: ${inr(b.rent)}`,
+    b.metered ? `• Electricity: ${b.units} units × ₹${b.rate} = ${inr(b.elec)}` : null,
+    `*Total due: ${inr(b.total)}*`,
+    `Due date: ${dLabel(dueOf(r, m))}${u.k === 'over' ? ` (overdue by ${u.d} day${u.d > 1 ? 's' : ''})` : u.k === 'today' ? ' (today)' : ''}`, ``,
+    `Kindly pay at the earliest. Thank you!`, `— ${o.name || 'PG Owner'}${o.phone ? ' · ' + o.phone : ''}`
+  ];
+  return lines.filter(l => l !== null).join('\n');
+}
+function guardianMsg(r, m, b, u) {
+  const o = S.owner;
+  return [`Namaste ${r.guardian || 'ji'},`, ``,
+    `This is ${o.name || 'the owner'} from *${o.pg || 'the PG'}*. The PG rent of ${r.tenant} (Room ${r.no}) for *${mLabel(m, true)}* amounting to *${inr(b.total)}* is ${u.k === 'over' ? `overdue by ${u.d} day${u.d > 1 ? 's' : ''}` : u.k === 'today' ? 'due today' : `due on ${dLabel(dueOf(r, m))}`}.`, ``,
+    `Kindly ensure the payment is made. Thank you.`, `— ${o.name || 'PG Owner'}${o.phone ? ' · ' + o.phone : ''}`].join('\n');
+}
+
+/* =====================================================================
+   VIEWS
+   ===================================================================== */
+const VIEWS = {};
+
+VIEWS.home = () => {
+  const s = stats(M), occ = S.rooms.filter(r => r.tenant).length;
+  const pend = s.pend.map(r => ({ r, b: bill(r, M), u: urgency(r, M) }))
+    .sort((a, b) => ({ over: 0, today: 1, soon: 2 }[a.u.k] - { over: 0, today: 1, soon: 2 }[b.u.k]) || (a.u.k === 'over' ? b.u.d - a.u.d : a.u.d - b.u.d));
+  const paid = Object.entries(S.pay[M] || {}).sort((a, b) => String(b[1].on).localeCompare(a[1].on));
+  if (!S.rooms.length) return monthBar() + empty('fa-building', 'No rooms yet', 'Add your first room to start tracking rent.', `<button class="btn btn-brand mt-4" data-act="addRoom"><i class="fa-solid fa-plus"></i>Add room</button>`);
+  return `${monthBar()}
+  <div class="grid grid-cols-2 gap-3">
+    ${tile('Collected', inr(s.collected), 'fa-arrow-down-long', 'text-ok', `${s.pays.length} payment${s.pays.length === 1 ? '' : 's'}`)}
+    ${tile('Pending', inr(s.pending), 'fa-hourglass-half', s.pending ? 'text-brand' : 'text-ink', `${s.pend.length} room${s.pend.length === 1 ? '' : 's'} due`)}
+    ${tile('Occupied', `${occ}<span class="text-muted text-base font-bold">/${S.rooms.length}</span>`, 'fa-bed', 'text-ink', `${S.rooms.length ? Math.round(occ / S.rooms.length * 100) : 0}% occupancy`)}
+    ${tile('Net Profit', inr(s.net), 'fa-chart-line', s.net >= 0 ? 'text-ok' : 'text-bad', `after ${inr(s.expense)} expenses`)}
+  </div>
+  ${section(`Pending payments · ${pend.length}`, pend.length ? `<span class="text-xs text-muted num">${inr(s.pending)}</span>` : '')}
+  ${pend.length ? `<div class="grid gap-3">${pend.map(({ r, b, u }) => `
+    <article class="card fade-in ${u.k === 'over' ? 'urg-over' : u.k === 'today' ? 'urg-today' : ''}">
+      <div class="row items-start">
+        <div class="min-w-0">
+          <div class="flex items-center gap-2 flex-wrap"><span class="text-xs font-bold text-brand bg-brand/10 rounded-md px-1.5 py-0.5">RM ${esc(r.no)}</span>
+            ${u.k === 'over' ? `<span class="badge b-over"><i class="fa-solid fa-triangle-exclamation"></i>Overdue · ${u.d}d</span>` : u.k === 'today' ? `<span class="badge b-today"><i class="fa-solid fa-bell"></i>Due today</span>` : `<span class="badge b-soon">Due in ${u.d}d</span>`}</div>
+          <div class="font-bold text-[16px] mt-2 truncate">${esc(r.tenant)}</div>
+          <div class="text-xs text-muted mt-0.5">Due ${esc(dLabel(dueOf(r, M)))}</div>
+        </div>
+        <div class="text-right shrink-0"><div class="num text-2xl font-extrabold">${inr(b.total)}</div>
+          <div class="text-[11px] text-muted num mt-0.5">Rent ${inr(b.rent)}${b.metered ? ` + ⚡${inr(b.elec)}` : ''}</div></div>
+      </div>
+      ${b.metered ? `<div class="text-xs text-muted mt-3 num"><i class="fa-solid fa-bolt text-brand mr-1"></i>${b.units} units × ₹${b.rate}</div>`
+        : `<button class="mt-3 w-full text-left text-xs font-semibold text-brand bg-brand/10 border border-brand/30 rounded-lg px-3 py-2" data-act="goMeter" data-id="${r.id}"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Meter reading not logged — electricity unbilled. Log now →</button>`}
+      <div class="grid grid-cols-3 gap-2 mt-3">
+        <button class="btn btn-ok" data-act="pay" data-id="${r.id}"><i class="fa-solid fa-check"></i>Paid</button>
+        <a class="btn btn-wa" href="${wa(r.phone, tenantMsg(r, M, b, u))}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp text-base"></i>Tenant</a>
+        ${r.gphone ? `<a class="btn btn-wa" href="${wa(r.gphone, guardianMsg(r, M, b, u))}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp text-base"></i>Guardian</a>`
+          : `<button class="btn btn-ghost opacity-50" data-act="editRoom" data-id="${r.id}" title="Add guardian phone"><i class="fa-solid fa-user-plus"></i>Guardian</button>`}
+      </div>
+    </article>`).join('')}</div>`
+    : `<div class="card text-center py-8"><i class="fa-solid fa-circle-check text-ok text-3xl"></i><div class="font-bold mt-2">All dues cleared</div><p class="text-sm text-muted">No pending payments for ${esc(mLabel(M, true))}.</p></div>`}
+  ${section(`Paid · ${paid.length}`, paid.length ? `<span class="text-xs text-ok num">${inr(s.collected)}</span>` : '')}
+  ${paid.length ? `<div class="card !p-0 divide-y divide-line">${paid.map(([id, p]) => `
+    <div class="flex items-center gap-3 px-4 py-3">
+      <div class="w-9 h-9 rounded-xl bg-ok/10 text-ok grid place-items-center"><i class="fa-solid fa-check"></i></div>
+      <div class="flex-1 min-w-0"><div class="font-semibold text-sm truncate">RM ${esc(p.no)} · ${esc(p.tenant)}</div>
+        <div class="text-[11px] text-muted num">${esc(dLabel(p.on))} · Rent ${inr(p.rent)}${p.elec ? ` + ⚡${inr(p.elec)} (${p.units}u)` : ''}</div></div>
+      <div class="num font-bold text-ok text-sm">${inr(p.amt)}</div>
+      <button class="btn btn-ghost btn-sm" data-act="undo" data-id="${id}" aria-label="Undo payment"><i class="fa-solid fa-rotate-left"></i></button>
+    </div>`).join('')}</div>` : `<p class="text-sm text-muted">No payments recorded for this month yet.</p>`}`;
+};
+
+VIEWS.rooms = () => {
+  const occ = S.rooms.filter(r => r.tenant).length;
+  const list = [...S.rooms].sort((a, b) => String(a.no).localeCompare(String(b.no), undefined, { numeric: true }));
+  return `<div class="row mb-4"><div><h1 class="text-xl font-extrabold">Rooms</h1><p class="text-xs text-muted">${S.rooms.length} rooms · ${occ} occupied · ${S.rooms.length - occ} vacant</p></div>
+    <button class="btn btn-brand" data-act="addRoom"><i class="fa-solid fa-plus"></i>Add room</button></div>
+  ${list.length ? `<div class="grid gap-3">${list.map(r => `
+    <article class="card fade-in">
+      <div class="row items-start">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-12 h-12 rounded-2xl grid place-items-center font-extrabold ${r.tenant ? 'bg-brand/10 text-brand' : 'bg-field text-muted'}">${esc(r.no)}</div>
+          <div class="min-w-0"><div class="font-bold truncate">${r.tenant ? esc(r.tenant) : '<span class="text-muted">Vacant</span>'}</div>
+            <div class="text-xs text-muted num">${r.tenant ? `<i class="fa-solid fa-phone text-[10px]"></i> ${esc(r.phone)}` : 'Ready for a new tenant'}</div></div>
+        </div>
+        <span class="badge ${r.tenant ? 'b-ok' : 'b-soon'}">${r.tenant ? 'Occupied' : 'Vacant'}</span>
+      </div>
+      <div class="grid grid-cols-3 gap-2 mt-4 text-center">
+        <div class="bg-field rounded-xl py-2"><div class="text-[10px] uppercase font-bold text-muted tracking-wider">Rent</div><div class="num font-bold text-sm">${inr(r.rent)}</div></div>
+        <div class="bg-field rounded-xl py-2"><div class="text-[10px] uppercase font-bold text-muted tracking-wider">Due day</div><div class="num font-bold text-sm">${esc(r.dueDay)}</div></div>
+        <div class="bg-field rounded-xl py-2"><div class="text-[10px] uppercase font-bold text-muted tracking-wider">Move-in</div><div class="num font-bold text-sm">${r.moveIn ? esc(r.moveIn) : '—'}</div></div>
+      </div>
+      ${r.tenant && (r.guardian || r.gphone) ? `<div class="text-xs text-muted mt-3"><i class="fa-solid fa-user-shield mr-1"></i>Guardian: ${esc(r.guardian || '—')}${r.gphone ? ` · <span class="num">${esc(r.gphone)}</span>` : ''}</div>` : ''}
+      <div class="flex gap-2 mt-4">
+        <button class="btn btn-ghost flex-1" data-act="editRoom" data-id="${r.id}"><i class="fa-solid fa-pen"></i>${r.tenant ? 'Edit' : 'Assign tenant'}</button>
+        ${r.tenant ? `<button class="btn btn-ghost flex-1" data-act="vacate" data-id="${r.id}"><i class="fa-solid fa-door-open"></i>Vacate</button>` : ''}
+        <button class="btn btn-bad" data-act="delRoom" data-id="${r.id}" aria-label="Delete room ${esc(r.no)}"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </article>`).join('')}</div>`
+    : empty('fa-door-closed', 'No rooms added', 'Add rooms with rent, due day and tenant details.', `<button class="btn btn-brand mt-4" data-act="addRoom"><i class="fa-solid fa-plus"></i>Add room</button>`)}`;
+};
+
+VIEWS.meter = () => {
+  const rooms = S.rooms.filter(r => active(r, M) || readingOf(r.id, M))
+    .sort((a, b) => String(a.no).localeCompare(String(b.no), undefined, { numeric: true }));
+  const logged = rooms.filter(r => readingOf(r.id, M)), tot = logged.map(r => elec(r, M));
+  return `${monthBar()}
+  <div class="grid grid-cols-3 gap-3">
+    ${tile('Logged', `${logged.length}<span class="text-muted text-base">/${rooms.length}</span>`, 'fa-clipboard-check', logged.length === rooms.length && rooms.length ? 'text-ok' : 'text-brand')}
+    ${tile('Units', sum(tot.map(e => e.units)).toLocaleString('en-IN'), 'fa-bolt', 'text-ink')}
+    ${tile('Billable', inr(sum(tot.map(e => e.amt))), 'fa-indian-rupee-sign', 'text-ok')}
+  </div>
+  <div class="card mt-3 flex items-center gap-3 !py-3">
+    <i class="fa-solid fa-plug-circle-bolt text-brand text-lg"></i>
+    <div class="flex-1 text-sm">Tariff <b class="num">₹${S.rate}</b>/unit <span class="text-muted">· new readings use this rate</span></div>
+    <button class="btn btn-ghost btn-sm" data-act="tab" data-id="setup">Change</button>
+  </div>
+  ${section(`Sub-meter readings · ${mLabel(M, true)}`)}
+  ${rooms.length ? `<div class="grid gap-3">${rooms.map(r => {
+    const p = prevReading(r, M), e = elec(r, M), cur = readingOf(r.id, M), billed = paidRec(r, M);
+    return `<article class="card fade-in" id="mc_${r.id}">
+      <div class="row"><div class="min-w-0"><div class="font-bold truncate"><span class="text-brand">RM ${esc(r.no)}</span> · ${esc(r.tenant || 'Vacant')}</div>
+        <div class="text-xs text-muted num">Previous: <b class="text-ink">${p.val.toLocaleString('en-IN')}</b> ${p.from ? `(carried from ${esc(mLabel(p.from))})` : '(opening reading)'}</div></div>
+        ${e ? `<span class="badge b-ok"><i class="fa-solid fa-check"></i>Logged</span>` : `<span class="badge b-brand">Pending</span>`}</div>
+      <form class="flex gap-2 mt-3" data-submit="meter" data-id="${r.id}" novalidate>
+        <input name="cur" type="number" inputmode="decimal" step="0.1" min="${p.val}" class="fld num flex-1" placeholder="Current reading" value="${cur ? esc(cur.r) : ''}" data-meter="${r.id}" data-prev="${p.val}" aria-label="Current reading for room ${esc(r.no)}">
+        <button class="btn btn-brand h-12" type="submit"><i class="fa-solid fa-floppy-disk"></i>Save</button>
+        ${cur ? `<button class="btn btn-ghost h-12" type="button" data-act="clrMeter" data-id="${r.id}" aria-label="Clear reading"><i class="fa-solid fa-eraser"></i></button>` : ''}
+      </form>
+      <div id="mp_${r.id}" class="text-sm mt-2 num">${e ? `<span class="text-muted">${e.cur} − ${e.prev} =</span> <b>${e.units} units</b> <span class="text-muted">× ₹${e.rate} =</span> <b class="text-ok">${inr(e.amt)}</b>` : '<span class="text-muted">Enter the reading shown on the sub-meter.</span>'}</div>
+      ${billed ? `<div class="text-[11px] text-muted mt-2"><i class="fa-solid fa-lock mr-1"></i>Already marked paid (${inr(billed.elec)} electricity billed). Undo the payment to re-bill a changed reading.</div>` : ''}
+    </article>`;
+  }).join('')}</div>` : empty('fa-bolt', 'No occupied rooms this month', 'Readings can be logged for rooms with a tenant.')}`;
+};
+
+VIEWS.ca = () => {
+  const s = stats(M), fy = fyOf(M), withAmt = s.byCat.filter(c => c.amt > 0);
+  const marginCls = s.net >= 0 ? 'b-ok' : 'b-over';
+  const trend = Array.from({ length: 6 }, (_, i) => shiftM(M, i - 5)).map(m => ({ m, ...stats(m) }));
+  const defDate = M === thisMonth() ? today() : `${M}-01`;
+  return `${monthBar()}
+  <article class="card">
+    <div class="row"><div><div class="text-[11px] font-bold uppercase tracking-wider text-muted">Net profit · ${esc(mLabel(M, true))}</div>
+      <div class="num text-3xl font-extrabold mt-1 ${s.net >= 0 ? 'text-ok' : 'text-bad'}">${inr(s.net)}</div></div>
+      <span class="badge ${marginCls} text-xs"><i class="fa-solid ${s.net >= 0 ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i>${pct(s.margin)} margin</span></div>
+    <div class="hr"></div>
+    <div class="text-[11px] font-bold uppercase tracking-wider text-muted mb-2">Income</div>
+    <div class="row text-sm py-1"><span><i class="fa-solid fa-house-user text-muted w-5"></i>Rent collected</span><span class="num">${inr(s.rentC)}</span></div>
+    <div class="row text-sm py-1"><span><i class="fa-solid fa-bolt text-muted w-5"></i>Electricity recovered</span><span class="num">${inr(s.elecC)}</span></div>
+    <div class="row text-sm py-1 font-bold"><span>Total income</span><span class="num text-ok">${inr(s.collected)}</span></div>
+    <div class="hr"></div>
+    <div class="text-[11px] font-bold uppercase tracking-wider text-muted mb-2">Expenses</div>
+    ${s.byCat.map(c => `<div class="row text-sm py-1 ${c.amt ? '' : 'text-muted/60'}"><span><i class="fa-solid ${c.icon} w-5" style="color:${c.color}"></i>${c.name}</span><span class="num">${inr(c.amt)}</span></div>`).join('')}
+    <div class="row text-sm py-1 font-bold"><span>Total expenses</span><span class="num text-bad">${inr(s.expense)}</span></div>
+  </article>
+
+  <div class="grid grid-cols-2 gap-3 mt-3">
+    <div class="card !p-3.5"><div class="text-[11px] font-bold uppercase tracking-wider text-muted"><i class="fa-solid fa-bullseye text-brand mr-1"></i>Collection rate</div>
+      <div class="num text-[22px] font-extrabold mt-1.5">${s.eff == null ? '—' : pct(s.eff)}</div>
+      <div class="h-2 bg-field rounded-full mt-2 overflow-hidden"><div class="h-full rounded-full ${s.eff >= 90 ? 'bg-ok' : 'bg-brand'}" style="width:${Math.min(100, s.eff || 0)}%"></div></div>
+      <div class="text-[11px] text-muted mt-1.5 num">${inr(s.collected)} of ${inr(s.collected + s.pending)}</div></div>
+    <div class="card !p-3.5"><div class="text-[11px] font-bold uppercase tracking-wider text-muted"><i class="fa-solid fa-percent text-brand mr-1"></i>Expense ratio</div>
+      <div class="num text-[22px] font-extrabold mt-1.5">${s.collected ? pct(s.expense / s.collected * 100) : '—'}</div>
+      <div class="h-2 bg-field rounded-full mt-2 overflow-hidden"><div class="h-full rounded-full bg-bad" style="width:${s.collected ? Math.min(100, s.expense / s.collected * 100) : (s.expense ? 100 : 0)}%"></div></div>
+      <div class="text-[11px] text-muted mt-1.5 num">of income spent</div></div>
+  </div>
+
+  ${section('Expense distribution', `<span class="text-xs text-muted num">${inr(s.expense)}</span>`)}
+  <div class="card">
+    ${withAmt.length ? `<div class="flex h-4 rounded-full overflow-hidden gap-[2px] bg-field" role="img" aria-label="Expense distribution by category">
+      ${withAmt.map(c => `<div style="width:${c.amt / s.expense * 100}%;background:${c.color}" title="${c.name}: ${inr(c.amt)}"></div>`).join('')}</div>
+      <div class="grid grid-cols-2 gap-x-4 gap-y-2 mt-4">${withAmt.sort((a, b) => b.amt - a.amt).map(c => `
+        <div class="flex items-center gap-2 text-sm"><span class="w-2.5 h-2.5 rounded-sm shrink-0" style="background:${c.color}"></span><span class="flex-1 truncate">${c.name}</span><span class="num text-muted text-xs">${Math.round(c.amt / s.expense * 100)}%</span></div>`).join('')}</div>`
+      : `<p class="text-sm text-muted text-center py-2">No expenses recorded for ${esc(mLabel(M, true))}.</p>`}
+  </div>
+
+  ${section('Record expense')}
+  <form class="card grid gap-3" data-submit="expense" novalidate>
+    <div class="grid grid-cols-4 gap-2" role="radiogroup" aria-label="Category">
+      ${CATS.map(([k, n, ic, col], i) => `<label class="cursor-pointer"><input type="radio" name="cat" value="${k}" class="peer sr-only" ${i === 0 ? 'checked' : ''}>
+        <span class="flex flex-col items-center gap-1 py-2.5 rounded-xl bg-field border border-line text-[11px] font-semibold text-muted peer-checked:border-brand peer-checked:text-ink peer-checked:bg-brand/10 peer-focus-visible:ring-2 peer-focus-visible:ring-brand"><i class="fa-solid ${ic} text-base" style="color:${col}"></i>${n}</span></label>`).join('')}
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+      ${field('amt', 'Amount (₹)', 'type="number" inputmode="decimal" min="1" step="0.01" placeholder="0" required')}
+      ${field('date', 'Date', `type="date" required`, defDate)}
+    </div>
+    ${field('note', 'Note', 'maxlength="80" placeholder="e.g. Airtel fibre bill"')}
+    <button class="btn btn-brand h-12" type="submit"><i class="fa-solid fa-plus"></i>Add expense</button>
+  </form>
+
+  ${section(`Expenses · ${s.exps.length}`)}
+  ${s.exps.length ? `<div class="card !p-0 divide-y divide-line">${[...s.exps].sort((a, b) => b.date.localeCompare(a.date)).map(e => {
+    const c = CAT[e.cat] || CAT.misc;
+    return `<div class="flex items-center gap-3 px-4 py-3"><div class="w-9 h-9 rounded-xl grid place-items-center bg-field" style="color:${c.color}"><i class="fa-solid ${c.icon}"></i></div>
+      <div class="flex-1 min-w-0"><div class="text-sm font-semibold truncate">${c.name}${e.note ? ` <span class="text-muted font-normal">· ${esc(e.note)}</span>` : ''}</div><div class="text-[11px] text-muted num">${esc(dLabel(e.date))}</div></div>
+      <div class="num text-sm font-bold text-bad">${inr(e.amt)}</div>
+      <button class="btn btn-ghost btn-sm" data-act="delExp" data-id="${e.id}" aria-label="Delete expense"><i class="fa-solid fa-trash-can"></i></button></div>`;
+  }).join('')}</div>` : `<p class="text-sm text-muted">Nothing recorded yet.</p>`}
+
+  ${section('6-month trend')}
+  <div class="card scroll-x"><table class="tbl num"><thead><tr><th>Month</th><th>Income</th><th>Expense</th><th>Net</th><th>Margin</th></tr></thead><tbody>
+    ${trend.map(t => `<tr${t.m === M ? ' class="text-brand"' : ''}><td>${esc(mLabel(t.m))}</td><td>${inr(t.collected)}</td><td>${inr(t.expense)}</td><td class="${t.net >= 0 ? 'text-ok' : 'text-bad'} font-semibold">${inr(t.net)}</td><td>${t.collected || t.expense ? pct(t.margin) : '—'}</td></tr>`).join('')}
+  </tbody></table></div>
+
+  ${section('CA auditor tax statement')}
+  <div class="card">
+    <p class="text-sm text-muted mb-3">Generates a print-ready A4 statement with P&amp;L, rent collection register and expense register. Choose <b class="text-ink">Save as PDF</b> in the print dialog to share with your CA.</p>
+    <div class="grid grid-cols-2 gap-2">
+      <button class="btn btn-ghost h-12" data-act="print" data-id="month"><i class="fa-solid fa-print"></i>${esc(mLabel(M))}</button>
+      <button class="btn btn-brand h-12" data-act="print" data-id="fy"><i class="fa-solid fa-file-invoice"></i>${fy.label}</button>
+    </div>
+  </div>`;
+};
+
+VIEWS.setup = () => {
+  const o = S.owner, hasSample = S.rooms.some(r => r.sample) || S.exp.some(e => e.sample) || S.sampleOwner;
+  const kb = ((localStorage.getItem(KEY) || '').length / 1024).toFixed(1);
+  return `<h1 class="text-xl font-extrabold mb-4">Setup</h1>
+  ${hasSample ? `<div class="card !border-brand/40 bg-brand/5 mb-4 flex gap-3 items-start"><i class="fa-solid fa-flask text-brand mt-1"></i>
+    <div class="flex-1 text-sm">You're viewing <b>sample data</b>. Clear it when you're ready to add your own rooms.</div>
+    <button class="btn btn-brand btn-sm" data-act="clearSample">Clear</button></div>` : ''}
+  <form class="card grid gap-3" data-submit="owner" novalidate>
+    <div class="font-bold"><i class="fa-solid fa-user-tie text-brand mr-2"></i>Owner &amp; PG details</div>
+    ${field('name', 'Owner name', 'maxlength="60" autocomplete="name"', o.name)}
+    ${field('pg', 'PG / hostel name', 'maxlength="60"', o.pg)}
+    ${field('phone', 'Owner phone (10 digits)', 'type="tel" inputmode="numeric" maxlength="10" data-digits placeholder="9876543210"', o.phone, 'Shown in WhatsApp reminders.')}
+    <div><label class="lbl" for="f_address">Address</label><textarea id="f_address" name="address" class="fld" maxlength="200">${esc(o.address)}</textarea></div>
+    <div class="grid grid-cols-2 gap-3">
+      ${field('pan', 'PAN', 'maxlength="10" placeholder="ABCDE1234F" style="text-transform:uppercase"', o.pan)}
+      ${field('gstin', 'GSTIN (optional)', 'maxlength="15" style="text-transform:uppercase"', o.gstin)}
+    </div>
+    <button class="btn btn-brand h-12" type="submit"><i class="fa-solid fa-floppy-disk"></i>Save details</button>
+  </form>
+
+  <form class="card grid gap-3 mt-4" data-submit="rate" novalidate>
+    <div class="font-bold"><i class="fa-solid fa-bolt text-brand mr-2"></i>Electricity tariff</div>
+    ${field('rate', 'Rate per unit (₹)', 'type="number" inputmode="decimal" step="0.01" min="0.01" max="100"', S.rate, 'Applied to newly logged readings. Past readings keep the rate they were billed at.')}
+    <button class="btn btn-ghost h-12" type="submit"><i class="fa-solid fa-check"></i>Update rate</button>
+  </form>
+
+  <div class="card mt-4">
+    <div class="font-bold mb-1"><i class="fa-solid fa-database text-brand mr-2"></i>Local data backup</div>
+    <p class="text-xs text-muted mb-3">All data is stored only on this device (${kb} KB). Export a backup regularly.</p>
+    <div class="grid grid-cols-2 gap-2">
+      <button class="btn btn-ghost h-12" data-act="export"><i class="fa-solid fa-file-export"></i>Export JSON</button>
+      <label class="btn btn-ghost h-12"><i class="fa-solid fa-file-import"></i>Import JSON<input type="file" accept="application/json,.json" class="sr-only" data-change="import"></label>
+    </div>
+    <div class="hr"></div>
+    <div class="grid grid-cols-2 gap-2">
+      <button class="btn btn-ghost h-12 ${hasSample ? '' : 'opacity-50'}" data-act="clearSample" ${hasSample ? '' : 'disabled'}><i class="fa-solid fa-broom"></i>Clear sample</button>
+      <button class="btn btn-bad h-12" data-act="reset"><i class="fa-solid fa-trash"></i>Full reset</button>
+    </div>
+  </div>
+
+  <div class="card mt-4 text-sm">
+    <div class="row"><span class="text-muted">App version</span><span class="num">${VER}</span></div>
+    <div class="row mt-2"><span class="text-muted">Mode</span><span>${matchMedia('(display-mode: standalone)').matches ? 'Installed app' : 'Browser'}</span></div>
+    <div class="row mt-2"><span class="text-muted">Offline ready</span><span id="swState">${'serviceWorker' in navigator && navigator.serviceWorker.controller ? '<span class="text-ok">Yes</span>' : 'Preparing…'}</span></div>
+    ${deferredPrompt ? `<button class="btn btn-brand h-12 w-full mt-4" data-act="install"><i class="fa-solid fa-download"></i>Install app</button>` : ''}
+  </div>`;
+};
+
+/* ---------- render ---------- */
+function render() {
+  $('#view').innerHTML = `<div class="fade-in">${VIEWS[TAB]()}</div>`;
+  document.querySelectorAll('#tabs .tab').forEach(b => { const on = b.dataset.id === TAB; b.classList.toggle('on', on); b.setAttribute('aria-current', on ? 'page' : 'false'); });
+  $('#hdrSub').textContent = S.owner.pg || 'Rent · Meter · Ledger';
+}
+function go(tab) { TAB = tab; render(); window.scrollTo({ top: 0 }); }
+
+/* ---------- rooms modal ---------- */
+function openRoom(id) {
+  const r = id ? room(id) : { no: '', rent: '', deposit: '', dueDay: 5, tenant: '', phone: '', guardian: '', gphone: '', moveIn: today(), meterStart: '' };
+  openModal(`<div class="row mb-4"><h3 class="text-lg font-extrabold">${id ? `Edit room ${esc(r.no)}` : 'Add room'}</h3><button class="ib" data-act="closeModal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div>
+  <form class="grid gap-3" data-submit="room" data-id="${id || ''}" novalidate>
+    <div class="grid grid-cols-2 gap-3">
+      ${field('no', 'Room no. *', 'maxlength="10" placeholder="101" autofocus', r.no)}
+      ${field('dueDay', 'Due day (1-31) *', 'type="number" inputmode="numeric" min="1" max="31" step="1"', r.dueDay)}
+      ${field('rent', 'Monthly rent (₹) *', 'type="number" inputmode="numeric" min="1" step="1" placeholder="8000"', r.rent)}
+      ${field('deposit', 'Deposit (₹)', 'type="number" inputmode="numeric" min="0" step="1"', r.deposit)}
+    </div>
+    <div class="hr !my-1"></div>
+    <div class="text-[11px] font-bold uppercase tracking-wider text-brand"><i class="fa-solid fa-user mr-1"></i>Tenant <span class="text-muted normal-case font-medium tracking-normal">— leave name empty for a vacant room</span></div>
+    ${field('tenant', 'Tenant name', 'maxlength="60" autocomplete="off"', r.tenant)}
+    <div class="grid grid-cols-2 gap-3">
+      ${field('phone', 'Tenant phone', 'type="tel" inputmode="numeric" maxlength="10" data-digits placeholder="10 digits"', r.phone)}
+      ${field('moveIn', 'Move-in date', 'type="date" placeholder="YYYY-MM-DD"', r.moveIn || (id ? today() : ''))}
+      ${field('guardian', 'Guardian name', 'maxlength="60"', r.guardian)}
+      ${field('gphone', 'Guardian phone', 'type="tel" inputmode="numeric" maxlength="10" data-digits placeholder="10 digits"', r.gphone)}
+    </div>
+    ${field('meterStart', 'Opening meter reading', 'type="number" inputmode="decimal" min="0" step="0.1" placeholder="0"', r.meterStart, 'Used as the "previous" reading until the first month is logged.')}
+    <button class="btn btn-brand h-12 mt-1" type="submit"><i class="fa-solid fa-check"></i>${id ? 'Save changes' : 'Add room'}</button>
+  </form>`);
+}
+
+/* ---------- forms ---------- */
+function showErrors(form, errs) {
+  form.querySelectorAll('[data-err]').forEach(p => { p.textContent = errs[p.dataset.err] || ''; });
+  form.querySelectorAll('.fld').forEach(f => f.classList.toggle('invalid', !!errs[f.name]));
+  const first = Object.keys(errs)[0];
+  if (first) { form.querySelector(`[name="${first}"]`)?.focus(); return false; }
+  return true;
+}
+const FORMS = {
+  room(form) {
+    const id = form.dataset.id, d = Object.fromEntries(new FormData(form)), e = {};
+    for (const k in d) d[k] = String(d[k]).trim();
+    if (!d.no) e.no = 'Room number is required.';
+    else if (S.rooms.some(r => r.id !== id && String(r.no).toLowerCase() === d.no.toLowerCase())) e.no = `Room ${d.no} already exists.`;
+    const due = Number(d.dueDay);
+    if (!Number.isInteger(due) || due < 1 || due > 31) e.dueDay = 'Enter a whole number from 1 to 31.';
+    if (!(Number(d.rent) > 0)) e.rent = 'Enter the monthly rent.';
+    if (d.deposit && !(Number(d.deposit) >= 0)) e.deposit = 'Invalid amount.';
+    if (d.tenant) {
+      if (!PHONE.test(d.phone)) e.phone = 'Must be exactly 10 digits.';
+      if (!validDate(d.moveIn)) e.moveIn = 'Use a valid YYYY-MM-DD date.';
+    } else if (d.phone && !PHONE.test(d.phone)) e.phone = 'Must be exactly 10 digits.';
+    if (d.gphone && !PHONE.test(d.gphone)) e.gphone = 'Must be exactly 10 digits.';
+    if (d.gphone && d.gphone === d.phone) e.gphone = 'Guardian phone should differ from tenant phone.';
+    if (d.meterStart && !(Number(d.meterStart) >= 0)) e.meterStart = 'Reading cannot be negative.';
+    if (!showErrors(form, e)) return;
+    const data = { no: d.no, rent: Number(d.rent), deposit: Number(d.deposit) || 0, dueDay: due, tenant: d.tenant,
+      phone: d.tenant ? d.phone : '', guardian: d.tenant ? d.guardian : '', gphone: d.tenant ? d.gphone : '', moveIn: d.tenant ? d.moveIn : '', meterStart: Number(d.meterStart) || 0 };
+    if (id) Object.assign(room(id), data); else S.rooms.push({ id: uid(), ...data });
+    save(); closeModal(); render(); toast(id ? `Room ${data.no} updated` : `Room ${data.no} added`, 'ok');
+  },
+  meter(form) {
+    const r = room(form.dataset.id), raw = form.cur.value.trim(), v = Number(raw), p = prevReading(r, M), n = nextReading(r, M);
+    const fail = msg => { form.cur.classList.add('invalid'); form.cur.focus(); toast(msg, 'bad'); };
+    if (raw === '' || !isFinite(v)) return fail('Enter a valid numeric reading.');
+    if (v < 0) return fail('Reading cannot be negative — rejected.');
+    if (v < p.val) return fail(`Rejected: ${v} is lower than the previous reading ${p.val}.`);
+    if (n && v > n.val) return fail(`Rejected: ${v} is higher than the ${mLabel(n.from)} reading ${n.val}.`);
+    const existing = readingOf(r.id, M);
+    (S.read[M] ??= {})[r.id] = { r: v, rate: existing && existing.r === v ? existing.rate : S.rate };
+    save(); render();
+    const e = elec(r, M);
+    toast(`RM ${r.no}: ${e.units} units = ${inr(e.amt)}`, paidRec(r, M) ? 'warn' : 'ok');
+  },
+  expense(form) {
+    const d = Object.fromEntries(new FormData(form)), e = {}, amt = Number(d.amt);
+    if (!(amt > 0)) e.amt = 'Enter an amount above 0.';
+    if (!validDate(d.date)) e.date = 'Pick a valid date.';
+    if (!CAT[d.cat]) e.cat = 'Choose a category.';
+    if (!showErrors(form, e)) return;
+    S.exp.push({ id: uid(), cat: d.cat, amt: Math.round(amt * 100) / 100, date: d.date, note: String(d.note || '').trim() });
+    save();
+    const m = d.date.slice(0, 7);
+    render();
+    toast(m === M ? `${CAT[d.cat].name} expense of ${inr(amt)} added` : `Saved to ${mLabel(m)}`, 'ok', m === M ? null : { label: 'View', fn: () => { M = m; render(); } });
+  },
+  owner(form) {
+    const d = Object.fromEntries(new FormData(form)), e = {};
+    for (const k in d) d[k] = String(d[k]).trim();
+    d.pan = d.pan.toUpperCase(); d.gstin = d.gstin.toUpperCase();
+    if (d.phone && !PHONE.test(d.phone)) e.phone = 'Must be exactly 10 digits.';
+    if (d.pan && !/^[A-Z]{5}\d{4}[A-Z]$/.test(d.pan)) e.pan = 'Format: ABCDE1234F';
+    if (d.gstin && !/^\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/.test(d.gstin)) e.gstin = 'Invalid 15-character GSTIN.';
+    if (!showErrors(form, e)) return;
+    S.owner = d; delete S.sampleOwner; save(); render(); toast('Owner details saved', 'ok');
+  },
+  rate(form) {
+    const v = Number(form.rate.value);
+    if (!showErrors(form, !(v > 0 && v <= 100) ? { rate: 'Enter a rate between ₹0.01 and ₹100.' } : {})) return;
+    S.rate = Math.round(v * 100) / 100; save(); render(); toast(`Tariff set to ₹${S.rate}/unit`, 'ok');
+  }
+};
+
+/* ---------- actions ---------- */
+const ACT = {
+  tab: id => go(id),
+  mprev: () => { M = shiftM(M, -1); render(); },
+  mnext: () => { M = shiftM(M, 1); render(); },
+  mnow: () => { M = thisMonth(); render(); },
+  closeModal: () => closeModal(),
+  addRoom: () => openRoom(),
+  editRoom: id => openRoom(id),
+  goMeter: id => { go('meter'); setTimeout(() => { const i = $(`[data-meter="${id}"]`); if (i) { i.scrollIntoView({ block: 'center', behavior: 'smooth' }); i.focus(); } }, 50); },
+  async pay(id) {
+    const r = room(id), b = bill(r, M);
+    if (!b.metered && S.rate > 0) {
+      const c = await choose({ title: 'Meter reading missing', icon: 'fa-bolt', msg: `Room <b class="text-ink">${esc(r.no)}</b> has no sub-meter reading for ${esc(mLabel(M, true))}. If you continue, <b class="text-brand">electricity will not be billed</b> — only rent of ${inr(b.rent)} is recorded.`,
+        buttons: [{ label: 'Log meter reading first', value: 'meter', cls: 'btn-brand', icon: 'fa-bolt' }, { label: `Mark paid · rent only ${inr(b.rent)}`, value: 'ok', cls: 'btn-ghost', icon: 'fa-check' }] });
+      if (c === 'meter') return ACT.goMeter(id);
+      if (c !== 'ok') return;
+    }
+    const m = M; recordPay(r, m); save(); render();
+    toast(`RM ${r.no} marked paid · ${inr(b.total)}`, 'ok', { label: 'Undo', fn: () => { delete S.pay[m]?.[id]; save(); render(); toast('Payment undone'); } });
+  },
+  async undo(id) {
+    const p = S.pay[M]?.[id]; if (!p) return;
+    if (!await confirmBox('Undo payment?', `Move <b class="text-ink">RM ${esc(p.no)} · ${esc(p.tenant)}</b> (${inr(p.amt)}) back to pending for ${esc(mLabel(M, true))}?`, 'Undo payment', 'brand', 'fa-rotate-left')) return;
+    delete S.pay[M][id]; if (!Object.keys(S.pay[M]).length) delete S.pay[M];
+    save(); render(); toast('Payment moved back to pending');
+  },
+  async vacate(id) {
+    const r = room(id), due = active(r, M) && !paidRec(r, M) ? bill(r, M).total : 0;
+    if (!await confirmBox(`Vacate room ${r.no}?`, `${esc(r.tenant)} will be checked out. Payment history is kept for the ledger.${due ? `<br><b class="text-bad">Unpaid for ${esc(mLabel(M))}: ${inr(due)}</b>` : ''}`, 'Vacate room', 'bad', 'fa-door-open')) return;
+    const name = r.tenant;
+    Object.assign(r, { tenant: '', phone: '', guardian: '', gphone: '', moveIn: '' });
+    save(); render(); toast(`${name} vacated room ${r.no}`, 'ok');
+  },
+  async delRoom(id) {
+    const r = room(id);
+    if (!await confirmBox(`Delete room ${r.no}?`, 'The room and its meter readings are removed. Recorded payments stay in the CA ledger. This cannot be undone.', 'Delete room')) return;
+    S.rooms = S.rooms.filter(x => x.id !== id);
+    for (const m in S.read) { delete S.read[m][id]; if (!Object.keys(S.read[m]).length) delete S.read[m]; }
+    save(); render(); toast(`Room ${r.no} deleted`);
+  },
+  async clrMeter(id) {
+    const r = room(id);
+    if (!await confirmBox('Clear reading?', `Remove the ${esc(mLabel(M))} reading for room ${esc(r.no)}?`, 'Clear reading', 'bad', 'fa-eraser')) return;
+    delete S.read[M]?.[id]; if (S.read[M] && !Object.keys(S.read[M]).length) delete S.read[M];
+    save(); render(); toast('Reading cleared');
+  },
+  async delExp(id) {
+    const e = S.exp.find(x => x.id === id); if (!e) return;
+    S.exp = S.exp.filter(x => x.id !== id); save(); render();
+    toast(`${(CAT[e.cat] || CAT.misc).name} ${inr(e.amt)} deleted`, 'info', { label: 'Undo', fn: () => { S.exp.push(e); save(); render(); } });
+  },
+  print: kind => printStatement(kind),
+  export() {
+    const blob = new Blob([JSON.stringify({ app: 'pg-ca-manager', version: VER, exported: new Date().toISOString(), data: S }, null, 2)], { type: 'application/json' });
+    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: `pg-ca-backup-${today()}.json` });
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    toast('Backup exported', 'ok');
+  },
+  async clearSample() {
+    if (!await confirmBox('Clear sample data?', 'Removes the demo rooms, readings, payments and expenses. Anything you added yourself is kept.', 'Clear sample data', 'brand', 'fa-broom')) return;
+    const ids = new Set(S.rooms.filter(r => r.sample).map(r => r.id));
+    S.rooms = S.rooms.filter(r => !r.sample); S.exp = S.exp.filter(e => !e.sample);
+    for (const bag of [S.pay, S.read]) for (const m in bag) { for (const id of ids) delete bag[m][id]; if (!Object.keys(bag[m]).length) delete bag[m]; }
+    if (S.sampleOwner) { S.owner = blank().owner; delete S.sampleOwner; }
+    save(); render(); toast('Sample data cleared — add your first room', 'ok');
+  },
+  async reset() {
+    if (!await confirmBox('Full reset?', 'This permanently erases <b class="text-bad">all rooms, payments, readings, expenses and settings</b> on this device. Export a backup first if you might need it.', 'Erase everything')) return;
+    S = blank(); save(); M = thisMonth(); go('home'); toast('All data erased');
+  },
+  async install() {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt(); await deferredPrompt.userChoice.catch(() => {}); deferredPrompt = null;
+    $('#installBtn').classList.add('hidden'); if (TAB === 'setup') render();
+  }
+};
+
+async function importFile(input) {
+  const f = input.files?.[0]; input.value = ''; if (!f) return;
+  try {
+    const d = normalize(JSON.parse(await f.text()));
+    if (!await confirmBox('Replace data with backup?', `Backup contains <b class="text-ink">${d.rooms.length} rooms</b>, <b class="text-ink">${Object.keys(d.pay).length} months</b> of payments and <b class="text-ink">${d.exp.length} expenses</b>. Current data on this device will be replaced.`, 'Import backup', 'brand', 'fa-file-import')) return;
+    S = d; save(); M = thisMonth(); go('home'); toast('Backup imported', 'ok');
+  } catch (e) { toast(e.message.includes('backup') ? e.message : 'Could not read file — invalid JSON.', 'bad'); }
+}
+
+/* ---------- printable CA statement ---------- */
+function printStatement(kind) {
+  const fy = fyOf(M), months = kind === 'fy' ? fy.months : [M], set = new Set(months);
+  const period = kind === 'fy' ? `${fy.label} (${mLabel(months[0], true)} – ${mLabel(months[11], true)})` : mLabel(M, true);
+  const st = months.map(stats), o = S.owner;
+  const rentC = sum(st.map(s => s.rentC)), elecC = sum(st.map(s => s.elecC)), income = rentC + elecC;
+  const byCat = CATS.map(([k]) => ({ ...CAT[k], amt: sum(st.map(s => s.byCat.find(c => c.key === k).amt)) }));
+  const expense = sum(byCat.map(c => c.amt)), net = income - expense;
+  const pays = months.flatMap(m => Object.values(S.pay[m] || {}).map(p => ({ ...p, m }))).sort((a, b) => a.m.localeCompare(b.m) || String(a.no).localeCompare(String(b.no), undefined, { numeric: true }));
+  const exps = S.exp.filter(e => set.has(e.date.slice(0, 7))).sort((a, b) => a.date.localeCompare(b.date));
+  const pendNow = st.reduce((t, s) => t + s.pending, 0);
+  const R = n => `<td class="r">${inr(n)}</td>`;
+  $('#printDoc').innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:20px">
+      <div><div class="muted" style="font-size:9pt;letter-spacing:.12em;text-transform:uppercase">CA Auditor Tax Statement</div>
+        <h1>${esc(o.pg || 'PG Accommodation')}</h1>
+        <div class="muted">Statement of income &amp; expenditure — ${esc(period)}</div></div>
+      <div style="text-align:right;font-size:9pt" class="muted">Generated ${esc(dLabel(today()))}<br>PG CA Manager v${VER}</div>
+    </div>
+    <table class="meta" style="margin-top:14px;width:auto"><tbody>
+      <tr><td style="width:120px" class="muted">Proprietor</td><td><b>${esc(o.name || '—')}</b></td></tr>
+      <tr><td class="muted">PAN</td><td>${esc(o.pan || '—')}</td></tr>
+      ${o.gstin ? `<tr><td class="muted">GSTIN</td><td>${esc(o.gstin)}</td></tr>` : ''}
+      <tr><td class="muted">Phone</td><td>${esc(o.phone || '—')}</td></tr>
+      <tr><td class="muted">Address</td><td>${esc(o.address || '—')}</td></tr>
+      <tr><td class="muted">Basis</td><td>Cash basis — receipts as recorded on date of collection</td></tr>
+    </tbody></table>
+
+    <h2>1. Profit &amp; Loss summary</h2>
+    <table><thead><tr><th>Particulars</th><th class="r">Amount (₹)</th></tr></thead><tbody>
+      <tr><td>Rental income (rent received)</td>${R(rentC)}</tr>
+      <tr><td>Electricity charges recovered from tenants</td>${R(elecC)}</tr>
+      <tr class="tot"><td>Gross receipts (A)</td>${R(income)}</tr>
+      ${byCat.map(c => `<tr><td>Less: ${c.name} expenses</td>${R(c.amt)}</tr>`).join('')}
+      <tr class="tot"><td>Total expenditure (B)</td>${R(expense)}</tr>
+      <tr class="tot"><td>Net profit / (loss) (A − B)</td>${R(net)}</tr>
+      <tr><td>Net margin</td><td class="r">${income ? pct(net / income * 100) : '—'}</td></tr>
+      <tr><td>Outstanding rent receivable (not included above)</td>${R(pendNow)}</tr>
+    </tbody></table>
+
+    ${kind === 'fy' ? `<h2>2. Month-wise summary</h2>
+    <table><thead><tr><th>Month</th><th class="r">Rent</th><th class="r">Electricity</th><th class="r">Expenses</th><th class="r">Net</th></tr></thead><tbody>
+      ${months.map((m, i) => `<tr><td>${esc(mLabel(m))}</td>${R(st[i].rentC)}${R(st[i].elecC)}${R(st[i].expense)}${R(st[i].net)}</tr>`).join('')}
+      <tr class="tot"><td>Total</td>${R(rentC)}${R(elecC)}${R(expense)}${R(net)}</tr></tbody></table>` : ''}
+
+    <h2>${kind === 'fy' ? 3 : 2}. Rent collection register</h2>
+    ${pays.length ? `<table><thead><tr><th>Month</th><th>Received on</th><th>Room</th><th>Tenant</th><th class="r">Rent</th><th class="r">Units</th><th class="r">Electricity</th><th class="r">Total</th></tr></thead><tbody>
+      ${pays.map(p => `<tr><td>${esc(mLabel(p.m))}</td><td>${esc(p.on)}</td><td>${esc(p.no)}</td><td>${esc(p.tenant)}</td>${R(p.rent)}<td class="r">${p.units || '—'}</td>${R(p.elec)}${R(p.amt)}</tr>`).join('')}
+      <tr class="tot"><td colspan="4">Total</td>${R(rentC)}<td class="r">${sum(pays.map(p => p.units))}</td>${R(elecC)}${R(income)}</tr></tbody></table>` : '<p class="muted">No receipts recorded for this period.</p>'}
+
+    <h2>${kind === 'fy' ? 4 : 3}. Expense register</h2>
+    ${exps.length ? `<table><thead><tr><th>Date</th><th>Category</th><th>Description</th><th class="r">Amount</th></tr></thead><tbody>
+      ${exps.map(e => `<tr><td>${esc(e.date)}</td><td>${(CAT[e.cat] || CAT.misc).name}</td><td>${esc(e.note || '—')}</td>${R(e.amt)}</tr>`).join('')}
+      <tr class="tot"><td colspan="3">Total</td>${R(expense)}</tr></tbody></table>` : '<p class="muted">No expenses recorded for this period.</p>'}
+
+    <p class="muted" style="font-size:8.5pt;margin-top:16px">Declaration: The above figures are compiled from records maintained by the proprietor in PG CA Manager and are true to the best of their knowledge. Amounts are rounded to the nearest rupee. This statement is intended to assist the Chartered Accountant in preparing returns and does not by itself constitute an audited financial statement.</p>
+    <div class="sign"><div>Proprietor signature<br>${esc(o.name || '')}</div><div>Chartered Accountant<br>(Name, M.No. &amp; UDIN)</div></div>`;
+  setTimeout(() => window.print(), 50);
+}
+
+/* ---------- global event delegation ---------- */
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]'); if (!el || el.disabled) return;
+  const fn = ACT[el.dataset.act]; if (!fn) return;
+  e.preventDefault(); fn(el.dataset.id, el);
+});
+document.addEventListener('submit', e => {
+  const f = e.target.closest('form[data-submit]'); if (!f) return;
+  e.preventDefault(); FORMS[f.dataset.submit]?.(f);
+});
+document.addEventListener('change', e => {
+  const k = e.target.dataset.change;
+  if (k === 'month') { if (validMonth(e.target.value)) { M = e.target.value; render(); } }
+  else if (k === 'import') importFile(e.target);
+});
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (t.matches('[data-digits]')) t.value = t.value.replace(/\D/g, '').slice(0, 10);
+  if (t.classList.contains('invalid')) { t.classList.remove('invalid'); const p = t.form?.querySelector(`[data-err="${t.name}"]`); if (p) p.textContent = ''; }
+  if (t.dataset.meter) {
+    const out = $('#mp_' + t.dataset.meter), prev = Number(t.dataset.prev), raw = t.value.trim(), v = Number(raw);
+    if (raw === '' || !isFinite(v)) out.innerHTML = '<span class="text-muted">Enter the reading shown on the sub-meter.</span>';
+    else if (v < prev) out.innerHTML = `<span class="text-bad"><i class="fa-solid fa-ban mr-1"></i>Lower than previous reading (${prev}) — will be rejected</span>`;
+    else { const u = Math.round((v - prev) * 10) / 10; out.innerHTML = `<span class="text-muted">${v} − ${prev} =</span> <b>${u} units</b> <span class="text-muted">× ₹${S.rate} =</span> <b class="text-ok">${inr(u * S.rate)}</b> <span class="text-muted text-xs">(preview)</span>`; }
+  }
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ---------- connectivity, install, service worker ---------- */
+function netState() {
+  const on = navigator.onLine, d = $('#netDot');
+  d.className = 'badge ' + (on ? 'b-ok' : 'b-over'); d.lastElementChild.textContent = on ? 'Online' : 'Offline';
+}
+addEventListener('online', () => { netState(); requestSync(); });
+addEventListener('offline', netState);
+addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; $('#installBtn').classList.remove('hidden'); if (TAB === 'setup') render(); });
+addEventListener('appinstalled', () => { deferredPrompt = null; $('#installBtn').classList.add('hidden'); toast('PG CA Manager installed', 'ok'); });
+addEventListener('storage', e => { if (e.key === KEY) { load(); render(); } });
+
+async function requestSync() {
+  try { const reg = await navigator.serviceWorker?.ready; if (reg && 'sync' in reg) await reg.sync.register('pgca-sync'); } catch (_) {}
+}
+if ('serviceWorker' in navigator) {
+  addEventListener('load', async () => {
+    try {
+      const reg = await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+      reg.addEventListener('updatefound', () => {
+        const w = reg.installing;
+        w?.addEventListener('statechange', () => { if (w.state === 'activated' && navigator.serviceWorker.controller) toast('App updated', 'ok', { label: 'Reload', fn: () => location.reload() }); });
+      });
+      requestSync();
+      if ('periodicSync' in reg) {
+        const st = await navigator.permissions?.query({ name: 'periodic-background-sync' }).catch(() => null);
+        if (st?.state === 'granted') reg.periodicSync.register('pgca-refresh', { minInterval: 24 * 60 * 60 * 1000 }).catch(() => {});
+      }
+      await navigator.serviceWorker.ready; const s = $('#swState'); if (s) s.innerHTML = '<span class="text-ok">Yes</span>';
+    } catch (e) { console.warn('SW registration failed', e); }
+  });
+}
+if (navigator.storage?.persist) navigator.storage.persist().catch(() => {});
+
+/* ---------- boot ---------- */
+load();
+(() => {
+  const q = new URLSearchParams(location.search), map = { ca: 'ca', ledger: 'ca', meter: 'meter', rooms: 'rooms', setup: 'setup', home: 'home' };
+  if (map[q.get('tab')]) TAB = map[q.get('tab')];
+  const addRoom = q.get('action') === 'add_room' || /action=add_room/.test(location.pathname);
+  if (addRoom) TAB = 'rooms';
+  if (location.search || location.pathname !== '/') history.replaceState(null, '', '/');
+  netState(); render();
+  if (addRoom) openRoom();
+})();
+</script>
+</body>
+</html>
