@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B0B0C">
+<link rel="manifest" href="manifest.json"><link rel="icon" type="image/png" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes">
+<title>PG CA Manager</title>
+<style>
+:root{--bg:#0B0B0C;--s1:#161618;--s2:#202024;--bd:#2C2C32;--tx:#F4F4F5;--mu:#9A9AA3;--or:#FF7A1A;--gr:#3DDC84;--rd:#FF5A5F;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#app{max-width:480px;margin:0 auto;padding:16px 16px 96px}
+h1{font-size:26px;margin:2px 0 14px}h2{font-size:14px;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin:22px 0 10px}
+.pg{color:var(--or);font-weight:700;font-size:13px;letter-spacing:.08em}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:12px}
+.rw{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.mu{color:var(--mu);font-size:14px}.o{color:var(--or)}.g{color:var(--gr)}.r{color:var(--rd)}
+.amt{font-size:20px;font-weight:800;color:var(--or)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}
+.st{background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:10px}.st span{display:block;color:var(--mu);font-size:12px}.st b{font-size:17px}
+.mon{display:flex;align-items:center;justify-content:space-between;background:var(--s1);border:1px solid var(--bd);border-radius:14px;padding:6px;margin-bottom:14px}
+.ib{width:48px;height:48px;border:0;border-radius:10px;background:var(--s2);color:var(--tx);font-size:24px}.ib:disabled{opacity:.3}
+.btn{min-height:52px;padding:0 16px;border-radius:14px;border:1px solid transparent;font:600 16px system-ui,sans-serif;display:inline-flex;align-items:center;justify-content:center;text-decoration:none;cursor:pointer}
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.acts .btn{flex:1 1 140px}
+.pri{background:var(--or);color:#111}.gh{background:var(--s2);color:var(--tx);border-color:var(--bd)}.ok{background:transparent;border-color:var(--gr);color:var(--gr)}.wa{background:#1FA855;color:#fff}.dng{background:transparent;border-color:var(--rd);color:var(--rd)}.full{width:100%;margin-top:10px}.sm{min-height:44px}
+input,textarea,select{width:100%;min-height:52px;background:var(--s2);border:1px solid var(--bd);border-radius:12px;color:var(--tx);padding:0 14px;font:16px system-ui,sans-serif;margin:6px 0 12px}
+textarea{padding:12px;min-height:90px}input:focus,textarea:focus,select:focus{outline:2px solid var(--or)}
+label{display:block;font-size:14px;color:var(--mu)}
+.gap{margin-top:8px}.gap input{margin:0;flex:1}.gap .btn{flex:0 0 auto}
+.pill{background:var(--s2);color:var(--mu);border-radius:99px;padding:3px 10px;font-size:13px;white-space:nowrap}.pill.g{color:var(--gr)}.pill.r{background:#3a1517;color:var(--rd)}.pill.o{background:#3a2210;color:var(--or)}
+.empty{text-align:center;color:var(--mu);padding:28px 10px;border:1px dashed var(--bd);border-radius:16px}
+.bill{margin-top:10px;padding-top:10px;border-top:1px solid var(--bd);font-size:15px;line-height:1.7}
+.sub{margin:4px 0 10px;color:var(--or);font-weight:700;font-size:13px}.room{cursor:pointer}.pad{margin-bottom:10px}
+.bar{display:flex;height:16px;border-radius:99px;overflow:hidden;background:var(--s2);margin:10px 0}.bar i{display:block;height:100%}
+.lg{display:flex;justify-content:space-between;font-size:14px;padding:3px 0}.lg u{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;text-decoration:none}
+.rep{white-space:pre;overflow-x:auto;font:12px/1.5 ui-monospace,Menlo,Consolas,monospace;background:var(--s1);border:1px solid var(--bd);border-radius:12px;padding:12px}
+#nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:#111113;border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px);z-index:10}
+#nav button{flex:1;min-height:60px;border:0;background:none;color:var(--mu);font:600 11px system-ui,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+#nav button span{font-size:20px}#nav .on{color:var(--or)}
+.ovl{position:fixed;inset:0;display:flex;align-items:flex-end;justify-content:center;z-index:20;background:rgba(0,0,0,.65)}
+.sheet{width:100%;max-width:480px;max-height:92%;overflow:auto;background:var(--s1);border-radius:20px 20px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom,0px))}
+.sheet h2{margin-top:0;color:var(--tx);font-size:20px;text-transform:none;letter-spacing:0}
+.dl{align-items:center;z-index:30;padding:16px}.dialog{background:var(--s1);border:1px solid var(--bd);border-radius:18px;padding:20px;max-width:360px;width:100%}
+#toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);background:#26262b;border:1px solid var(--or);color:#fff;padding:12px 18px;border-radius:12px;opacity:0;pointer-events:none;transition:.2s;z-index:40;max-width:90%}
+#toast.show{opacity:1;transform:translate(-50%,0)}#toast.bad{border-color:var(--rd)}
+@media print{#nav,.np,#ov,#toast{display:none!important}html,body{background:#fff;color:#000}.rep{border:0;color:#000;background:#fff;font-size:11px}}
+</style></head><body>
+<div id="app"></div><nav id="nav"></nav><div id="ov"></div><div id="toast"></div>
+<script>
+const KEY='pg_manager_data',TABS=[['home','🏠','Home'],['rooms','🛏️','Rooms'],['meter','⚡','Meter'],['ledger','📒','CA Ledger'],['setup','⚙️','Setup']];
+const CATS=[['Electricity','#FFB020'],['Water','#4DA3FF'],['Maid & Cleaning','#B57BFF'],['WiFi / Internet','#3DDC84'],['Maintenance & Repairs','#FF5A5F'],['Mess / Food','#FF7A1A'],['Taxes','#8A8A93'],['Miscellaneous','#E6E6EA']];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+const pad=n=>String(n).padStart(2,'0'),pct=x=>x==null?'—':x.toFixed(1)+'%',dys=n=>n+(n===1?' day':' days');
+function today(){const d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+function cm(){return today().slice(0,7)}
+function dim(m){return new Date(+m.slice(0,4),+m.slice(5),0).getDate()}
+function mname(m){return new Date(+m.slice(0,4),+m.slice(5)-1,1).toLocaleString('en-IN',{month:'long',year:'numeric'})}
+function fmtD(s){return new Date(+s.slice(0,4),+s.slice(5,7)-1,+s.slice(8,10)).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}
+function dueInfo(t,m){const mi=t.moveIn?+t.moveIn.slice(8,10):1,dd=Math.min(t.dueDay||mi,dim(m)),n=new Date(),a=new Date(+m.slice(0,4),+m.slice(5)-1,dd),b=new Date(n.getFullYear(),n.getMonth(),n.getDate());return{due:m+'-'+pad(dd),diff:Math.round((a-b)/864e5)}}
+function badge(d){return d<0?'<span class="pill r">Overdue '+dys(-d)+'</span>':d===0?'<span class="pill o">Due today</span>':'<span class="pill">Due in '+dys(d)+'</span>'}
+function sample(){const r={};r[cm()+'|1']={cur:1262,paid:false};
+ return{owner:'',pg:'HNO 04Y',rate:8,nid:4,eid:3,rec:r,exp:[{id:1,date:cm()+'-03',cat:'WiFi / Internet',amt:999,note:'Monthly plan'},{id:2,date:cm()+'-05',cat:'Maid & Cleaning',amt:3000,note:''}],rooms:[
+ {id:1,no:'101',start:1200,t:{name:'Rahul Sharma',phone:'9876543210',guardian:'9812345678',rent:6500,moveIn:'2026-08-05',dueDay:null}},
+ {id:2,no:'102',start:845,t:{name:'Amit Verma',phone:'9123456780',guardian:'',rent:6000,moveIn:'2026-09-18',dueDay:20}},
+ {id:3,no:'103',start:0,t:null}]}}
+function vd(s){if(typeof s!=='string'||!/^\d{4}-\d\d-\d\d$/.test(s))return false;const y=+s.slice(0,4),m=+s.slice(5,7),d=+s.slice(8,10),t=new Date(y,m-1,d);return y>=2000&&t.getFullYear()===y&&t.getMonth()===m-1&&t.getDate()===d}
+const fn=(x,def)=>typeof x==='number'&&isFinite(x)?x:def;
+function clean(d){if(!d||typeof d!=='object'||!Array.isArray(d.rooms)||!d.rec||typeof d.rec!=='object')return null;
+ const seen={},rooms=[];
+ d.rooms.forEach(r=>{if(!r||typeof r!=='object'||!Number.isInteger(r.id)||seen[r.id])return;seen[r.id]=1;const t=r.t&&typeof r.t==='object'?r.t:null;
+  rooms.push({id:r.id,no:String(r.no==null?r.id:r.no),start:Math.max(0,fn(r.start,0)),t:t?{name:String(t.name||'Tenant'),phone:String(t.phone||'').replace(/\D/g,'').slice(0,10),guardian:String(t.guardian||'').replace(/\D/g,'').slice(0,10),rent:Math.max(0,fn(t.rent,0)),moveIn:vd(t.moveIn)?t.moveIn:'',dueDay:Number.isInteger(t.dueDay)&&t.dueDay>=1&&t.dueDay<=31?t.dueDay:null}:null})});
+ const rec={};for(const k in d.rec){const v=d.rec[k],q=k.split('|');if(v&&typeof v==='object'&&/^\d{4}-\d\d$/.test(q[0])&&seen[+q[1]])rec[k]={cur:v.cur==null?null:fn(v.cur,null),paid:v.paid===true}}
+ const used={},exp=[];(Array.isArray(d.exp)?d.exp:[]).forEach(e=>{if(e&&typeof e==='object'&&vd(e.date)&&fn(e.amt,0)>0&&Number.isInteger(e.id)&&!used[e.id]){used[e.id]=1;exp.push({id:e.id,date:e.date,cat:CATS.some(c=>c[0]===e.cat)?e.cat:'Miscellaneous',amt:e.amt,note:String(e.note||'')})}});
+ return{owner:String(d.owner||''),pg:String(d.pg||'My PG'),rate:Math.max(0,fn(d.rate,8)),rooms,rec,exp,nid:Math.max(0,...rooms.map(r=>r.id))+1,eid:Math.max(0,...exp.map(e=>e.id))+1}}
+function load(){let d=null;try{d=clean(JSON.parse(localStorage.getItem(KEY)))}catch(e){}return d||sample()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+let S=load(),tab='home',mon=cm(),edit=null,xs=false,dlg=null,exp='',tt;
+function R(id){return S.rooms.find(r=>r.id===id)}
+function act(r){return r.t&&!(r.t.moveIn&&r.t.moveIn.slice(0,7)>mon)}
+function get(r){return S.rec[mon+'|'+r.id]||{cur:null,paid:false}}
+function setRec(r,p){const k=mon+'|'+r.id;S.rec[k]=Object.assign({cur:null,paid:false},S.rec[k],p);save()}
+function lastCur(r,m){let b=null;for(const k in S.rec){const q=k.split('|');if(+q[1]===r.id&&q[0]<m&&S.rec[k].cur!=null&&(!b||q[0]>b.m))b={m:q[0],c:S.rec[k].cur}}return b?b.c:(r.start||0)}
+function bill(r){const g=get(r),p=lastCur(r,mon),has=g.cur!=null,u=has?+Math.max(0,g.cur-p).toFixed(2):0,e=u*S.rate;return{g,p,has,u,e,total:r.t.rent+e}}
+function toast(m,bad){const e=$('#toast');e.textContent=m;e.className='show'+(bad?' bad':'');clearTimeout(tt);tt=setTimeout(()=>{e.className=''},2600)}
+function ask(text,yes,fn){dlg={text,yes,fn};render()}
+function dlgYes(){if(!dlg)return;const f=dlg.fn;dlg=null;f()}
+function dlgNo(){dlg=null;render()}
+function dg(e){e.value=e.value.replace(/\D/g,'').slice(0,10)}
+function go(k){tab=k;edit=null;xs=false;dlg=null;scrollTo(0,0);render()}
+function shift(d){const p=mon.split('-').map(Number),n=new Date(p[0],p[1]-1+d,1),v=n.getFullYear()+'-'+pad(n.getMonth()+1);if(v>cm())return;mon=v;render()}
+function head(t,m){return'<div class="pg">'+esc(S.pg)+'</div><h1>'+t+'</h1>'+(m?'<div class="mon np"><button class="ib" onclick="shift(-1)" aria-label="Previous month">‹</button><b>'+mname(mon)+'</b><button class="ib" onclick="shift(1)" aria-label="Next month"'+(mon>=cm()?' disabled':'')+'>›</button></div>':'')}
+function wa(r,who){const b=bill(r),t=r.t,n=who==='g'?t.guardian:t.phone,di=dueInfo(t,mon);
+ const L=[who==='g'?'Dear Guardian of '+t.name+',':'Hello '+t.name+',','Rent reminder for Room '+r.no+' – '+mname(mon)+':','Rent: '+inr(t.rent),b.has?'Electricity: '+b.u+' units × ₹'+S.rate+' = '+inr(b.e):'Electricity: to be added',(b.has?'Total: ':'Total (without electricity): ')+inr(b.total),(t.moveIn?'Move-in date: '+fmtD(t.moveIn)+'\n':'')+'Due date: '+fmtD(di.due),'Please pay at the earliest. Thank you.','– '+(S.owner||'PG Owner')+', '+S.pg];
+ return'https://wa.me/91'+n+'?text='+encodeURIComponent(L.join('\n'))}
+function home(){const occ=S.rooms.filter(act);let due=0,got=0;const pend=[],pd=[];
+ occ.forEach(r=>{const b=bill(r);b.di=dueInfo(r.t,mon);if(b.g.paid){pd.push([r,b]);got+=b.total}else{pend.push([r,b]);due+=b.total}});
+ pend.sort((x,y)=>x[1].di.diff-y[1].di.diff);
+ let h=head('Hello'+(S.owner?', '+esc(S.owner):''),1)+'<div class="stats"><div class="st"><span>Pending</span><b class="o">'+inr(due)+'</b></div><div class="st"><span>Collected</span><b class="g">'+inr(got)+'</b></div><div class="st"><span>Occupied</span><b>'+occ.length+'/'+S.rooms.length+'</b></div></div><h2>Pending rent</h2>';
+ if(!occ.length)h+='<div class="empty">No tenants for this month. Open Rooms to add one.</div>';
+ else if(!pend.length)h+='<div class="empty">All rent collected for this month 🎉</div>';
+ pend.forEach(p=>{const r=p[0],b=p[1],t=r.t;
+  h+='<div class="card"><div class="rw"><div><b>'+esc(t.name)+'</b><div class="mu">Room '+esc(r.no)+'</div></div><div class="amt">'+inr(b.total)+'</div></div><div class="mu">Rent '+inr(t.rent)+' + Electricity '+(b.has?inr(b.e)+' ('+b.u+' units)':'<span class="o">meter not entered</span>')+'</div><div class="rw gap"><span class="mu">Due '+fmtD(b.di.due)+'</span>'+badge(b.di.diff)+'</div><div class="acts"><button class="btn ok" onclick="paid('+r.id+')">✓ Paid</button><a class="btn wa" target="_blank" rel="noopener" href="'+wa(r,'t')+'">WhatsApp tenant</a>'+(t.guardian?'<a class="btn wa" target="_blank" rel="noopener" href="'+wa(r,'g')+'">WhatsApp guardian</a>':'')+'</div></div>'});
+ if(pd.length){h+='<h2>Paid</h2>';pd.forEach(p=>{h+='<div class="card rw"><div><b>'+esc(p[0].t.name)+'</b><div class="mu">Room '+esc(p[0].no)+' · '+inr(p[1].total)+'</div></div><button class="btn gh sm" onclick="unpaid('+p[0].id+')">Undo</button></div>'})}
+ return h}
+function paid(id){const r=R(id);if(!r||!r.t||get(r).paid)return;const f=()=>{setRec(r,{paid:true});toast('Marked paid');render()};
+ if(bill(r).has)f();else ask('Electricity reading is not entered for this month. Mark rent as paid anyway?','Mark paid',f)}
+function unpaid(id){const r=R(id);if(!r||!r.t)return;ask('Undo paid status for '+r.t.name+'?','Undo',()=>{setRec(r,{paid:false});render()})}
+function rooms(){let h=head('Rooms');
+ S.rooms.forEach(r=>{const t=r.t;h+='<div class="card room" role="button" tabindex="0" onclick="openEdit('+r.id+')"><div class="rw"><div><b>Room '+esc(r.no)+'</b><div class="mu">'+(t?esc(t.name)+' · '+esc(t.phone):'Vacant')+'</div>'+(t&&t.moveIn?'<div class="mu">In '+fmtD(t.moveIn)+' · due day '+(t.dueDay||+t.moveIn.slice(8,10))+'</div>':'')+'</div><div style="text-align:right">'+(t?'<span class="amt">'+inr(t.rent)+'</span><div class="mu">per month</div>':'<span class="pill">Vacant</span>')+'</div></div></div>'});
+ if(!S.rooms.length)h+='<div class="empty">No rooms yet.</div>';
+ return h+'<button class="btn pri full" onclick="openEdit(0)">+ Add room</button>'}
+function openEdit(id){edit=id;xs=false;render()}
+function closeEdit(){edit=null;xs=false;render()}
+function sheet(){const r=edit?R(edit):{no:'',start:0,t:null},t=r.t||{};
+ return'<div class="ovl"><div class="sheet"><h2>'+(edit?'Edit Room '+esc(r.no):'Add room')+'</h2><label>Room number<input id="f_no" maxlength="10" value="'+esc(r.no)+'"></label><label>Starting meter reading<input id="f_st" type="number" inputmode="decimal" min="0" value="'+(r.start||0)+'"></label><div class="sub">Tenant (leave blank if vacant)</div><label>Name<input id="f_n" value="'+esc(t.name)+'"></label><label>Phone (10 digits)<input id="f_p" inputmode="numeric" maxlength="10" oninput="dg(this)" value="'+esc(t.phone)+'"></label><label>Guardian phone (optional)<input id="f_g" inputmode="numeric" maxlength="10" oninput="dg(this)" value="'+esc(t.guardian)+'"></label><label>Monthly rent (₹)<input id="f_r" type="number" inputmode="numeric" min="0" value="'+(t.rent||'')+'"></label><label>Move-in date<input id="f_m" type="date" value="'+esc(t.moveIn)+'"></label><label>Rent due day, 1 to 31 (blank = move-in day)<input id="f_d" type="number" inputmode="numeric" min="1" max="31" value="'+(t.dueDay||'')+'"></label><div class="acts"><button class="btn pri" onclick="saveRoom()">Save</button><button class="btn gh" onclick="closeEdit()">Cancel</button></div>'+(edit&&r.t?'<button class="btn dng full" onclick="vacate()">Vacate tenant</button>':'')+(edit?'<button class="btn dng full" onclick="delRoom()">Delete room</button>':'')+'</div></div>'}
+function saveRoom(){const v=i=>document.getElementById(i).value.trim();
+ const no=v('f_no'),st=parseFloat(v('f_st')||'0'),n=v('f_n'),p=v('f_p'),g=v('f_g'),rent=parseFloat(v('f_r')),mi=v('f_m'),dd=v('f_d');
+ if(!no)return toast('Enter a room number',1);
+ if(S.rooms.some(x=>x.no.toLowerCase()===no.toLowerCase()&&x.id!==edit))return toast('That room number already exists',1);
+ if(!isFinite(st)||st<0)return toast('Starting reading must be 0 or more',1);
+ let t=null;
+ if(n||p||g||v('f_r')||mi||dd){
+  if(!n)return toast('Enter the tenant name',1);
+  if(!/^\d{10}$/.test(p))return toast('Tenant phone must be exactly 10 digits',1);
+  if(g&&!/^\d{10}$/.test(g))return toast('Guardian phone must be exactly 10 digits',1);
+  if(!isFinite(rent)||rent<=0)return toast('Enter the monthly rent',1);
+  if(mi&&!vd(mi))return toast('Enter a valid move-in date',1);
+  const dn=dd?parseInt(dd,10):null;if(dd&&(isNaN(dn)||dn<1||dn>31))return toast('Due day must be 1 to 31',1);
+  t={name:n,phone:p,guardian:g,rent:rent,moveIn:mi,dueDay:dn}}
+ if(edit){const r=R(edit);r.no=no;r.start=st;r.t=t}else S.rooms.push({id:S.nid++,no:no,start:st,t:t});
+ save();edit=null;toast('Saved');render()}
+function vacate(){const r=R(edit);if(!r||!r.t)return;ask('Remove '+r.t.name+' from Room '+r.no+'? Past records stay saved.','Vacate',()=>{r.t=null;save();edit=null;render()})}
+function delRoom(){const r=R(edit);if(!r)return;ask('Delete Room '+r.no+' and all its records?','Delete',()=>{S.rooms=S.rooms.filter(x=>x!==r);for(const k in S.rec)if(+k.split('|')[1]===r.id)delete S.rec[k];save();edit=null;render()})}
+function meter(){let h=head('Meter & bill',1)+'<div class="mu pad">Rate: ₹'+S.rate+' per unit</div>';
+ const occ=S.rooms.filter(act);if(!occ.length)return h+'<div class="empty">No tenants for this month.</div>';
+ occ.forEach(r=>{const b=bill(r);
+  h+='<div class="card"><div class="rw"><b>Room '+esc(r.no)+' · '+esc(r.t.name)+'</b>'+(b.g.paid?'<span class="pill g">Paid</span>':'')+'</div><div class="mu">Previous reading: <b>'+b.p+'</b></div><div class="rw gap"><input id="m'+r.id+'" type="number" inputmode="decimal" min="'+b.p+'" placeholder="Current reading" value="'+(b.has?b.g.cur:'')+'"><button class="btn pri" onclick="saveMeter('+r.id+')">Save</button></div>'+(b.has?'<div class="bill">'+b.u+' units × ₹'+S.rate+' = <b>'+inr(b.e)+'</b><br>Rent '+inr(r.t.rent)+' + electricity = <b class="o">'+inr(b.total)+'</b></div>':'')+'</div>'});
+ return h}
+function saveMeter(id){const r=R(id),x=document.getElementById('m'+id).value.trim(),p=lastCur(r,mon);
+ if(x==='')return toast('Enter the current reading',1);
+ const c=parseFloat(x);if(!isFinite(c)||c<0)return toast('Reading must be a valid number',1);
+ if(c<p)return toast('Current reading cannot be less than previous ('+p+')',1);
+ setRec(r,{cur:c});toast('Reading saved');render()}
+function fin(){let got=0,pend=0;S.rooms.filter(act).forEach(r=>{const b=bill(r);if(b.g.paid)got+=b.total;else pend+=b.total});
+ const ex=S.exp.filter(e=>e.date.slice(0,7)===mon).sort((a,b)=>b.date<a.date?-1:1),tot=ex.reduce((a,e)=>a+e.amt,0),by=CATS.map(c=>[c[0],c[1],ex.filter(e=>e.cat===c[0]).reduce((a,e)=>a+e.amt,0)]).filter(c=>c[2]>0);
+ return{got,pend,ex,tot,by,net:got-tot,mar:got>0?(got-tot)/got*100:null,eff:got+pend>0?got/(got+pend)*100:null}}
+function ledger(){const f=fin();let h=head('CA Ledger',1)+'<div class="stats"><div class="st"><span>Gross revenue</span><b class="g">'+inr(f.got)+'</b></div><div class="st"><span>Expenses</span><b class="o">'+inr(f.tot)+'</b></div><div class="st"><span>Net profit</span><b class="'+(f.net<0?'r':'g')+'">'+(f.net<0?'−':'')+inr(Math.abs(f.net))+'</b></div></div><div class="stats" style="grid-template-columns:1fr 1fr"><div class="st"><span>Profit margin</span><b>'+pct(f.mar)+'</b></div><div class="st"><span>Collection efficiency</span><b>'+pct(f.eff)+'</b></div></div>';
+ h+='<h2>Expense split</h2>';
+ if(!f.tot)h+='<div class="empty">No expenses logged this month.</div>';
+ else{h+='<div class="card"><div class="bar">'+f.by.map(c=>'<i style="width:'+(c[2]/f.tot*100)+'%;background:'+c[1]+'"></i>').join('')+'</div>'+f.by.map(c=>'<div class="lg"><span><u style="background:'+c[1]+'"></u>'+esc(c[0])+'</span><b>'+inr(c[2])+' · '+(c[2]/f.tot*100).toFixed(0)+'%</b></div>').join('')+'</div><h2>Entries</h2>';
+  f.ex.forEach(e=>{h+='<div class="card rw"><div><b>'+esc(e.cat)+'</b><div class="mu">'+fmtD(e.date)+(e.note?' · '+esc(e.note):'')+'</div></div><div style="text-align:right"><b class="o">'+inr(e.amt)+'</b><div><button class="btn dng sm" style="min-height:36px;padding:0 10px;margin-top:4px" onclick="delExp('+e.id+')">Delete</button></div></div></div>'})}
+ return h+'<button class="btn pri full" onclick="xs=true;edit=null;render()">+ Add expense</button><button class="btn gh full" onclick="go(\'report\')">📄 CA tax report</button>'}
+function xsheet(){const d=today().slice(0,7)===mon?today():mon+'-01';
+ return'<div class="ovl"><div class="sheet"><h2>Add expense</h2><label>Date<input id="x_d" type="date" value="'+d+'"></label><label>Category<select id="x_c">'+CATS.map(c=>'<option>'+esc(c[0])+'</option>').join('')+'</select></label><label>Amount (₹)<input id="x_a" type="number" inputmode="decimal" min="0" placeholder="0"></label><label>Note (optional)<input id="x_n" maxlength="60"></label><div class="acts"><button class="btn pri" onclick="saveExp()">Save</button><button class="btn gh" onclick="closeEdit()">Cancel</button></div></div></div>'}
+function saveExp(){const d=$('#x_d').value,c=$('#x_c').value,a=parseFloat($('#x_a').value),n=$('#x_n').value.trim();
+ if(!vd(d))return toast('Pick a valid date',1);
+ if(d.slice(0,7)>cm())return toast('Date cannot be in a future month',1);
+ if(!CATS.some(x=>x[0]===c))return toast('Pick a category',1);
+ if(!isFinite(a)||a<=0)return toast('Enter an amount above 0',1);
+ S.exp.push({id:S.eid++,date:d,cat:c,amt:a,note:n});save();xs=false;mon=d.slice(0,7);toast('Expense added');render()}
+function delExp(id){ask('Delete this expense entry?','Delete',()=>{S.exp=S.exp.filter(e=>e.id!==id);save();render()})}
+function reportText(){const f=fin(),W=(s,n)=>String(s).slice(0,n).padEnd(n),L=['PG CA STATEMENT – '+S.pg,'Month: '+mname(mon)+'   Prepared by: '+(S.owner||'Owner'),'','RENT & ELECTRICITY',W('Room',6)+W('Tenant',14)+W('Rent',9)+W('Elec',8)+W('Total',9)+'Status'];
+ S.rooms.filter(act).forEach(r=>{const b=bill(r);L.push(W(r.no,6)+W(r.t.name,14)+W(inr(r.t.rent),9)+W(b.has?inr(b.e):'-',8)+W(inr(b.total),9)+(b.g.paid?'Paid':'Pending'))});
+ L.push('','Collected: '+inr(f.got)+'   Pending: '+inr(f.pend),'','EXPENSES');
+ if(!f.ex.length)L.push('None');
+ f.ex.slice().reverse().forEach(e=>L.push(W(e.date,12)+W(e.cat,24)+inr(e.amt)+(e.note?'  '+e.note:'')));
+ L.push('Total expenses: '+inr(f.tot),'','SUMMARY','Gross revenue : '+inr(f.got),'Expenses      : '+inr(f.tot),'Net profit    : '+(f.net<0?'-':'')+inr(Math.abs(f.net)),'Profit margin : '+pct(f.mar),'Collection eff: '+pct(f.eff));return L.join('\n')}
+function report(){return head('CA tax report',1)+'<div class="rep" id="rp">'+esc(reportText())+'</div><div class="acts np"><button class="btn pri" onclick="doPrint()">🖨️ Print</button><button class="btn gh" onclick="cpyRep()">Copy text</button><button class="btn gh" onclick="go(\'ledger\')">Back</button></div>'}
+function doPrint(){try{window.print()}catch(e){toast('Print is blocked here. Use Copy text.',1)}}
+function cpyRep(){const t=document.createElement('textarea');t.value=reportText();t.style.cssText='position:fixed;opacity:0';document.body.appendChild(t);t.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}t.remove();toast(ok?'Report copied':'Copy failed. Select the text manually.',!ok)}
+function setup(){return head('Setup')+'<div class="card"><label>Your name<input id="s_o" placeholder="Owner name" value="'+esc(S.owner)+'"></label><label>PG name<input id="s_p" value="'+esc(S.pg)+'"></label><label>Electricity rate (₹ per unit)<input id="s_r" type="number" inputmode="decimal" min="0" step="0.5" value="'+S.rate+'"></label><button class="btn pri full" style="margin-top:0" onclick="saveSet()">Save settings</button></div><h2>Backup</h2><div class="card"><div class="mu">Data lives only on this device. Create a backup and keep the text somewhere safe, such as a Drive note or a WhatsApp chat with yourself.</div><textarea id="bk" placeholder="Backup text appears here. To restore, paste it here and tap Restore.">'+esc(exp)+'</textarea><div class="acts"><button class="btn gh" onclick="doExp()">Create backup</button><button class="btn gh" onclick="cpy()">Copy</button><button class="btn pri" onclick="doImp()">Restore</button></div></div><h2>Data</h2><div class="card"><button class="btn gh full" style="margin-top:0" onclick="fresh()">Remove sample data</button><button class="btn dng full" onclick="resetAll()">Erase everything</button></div>'}
+function saveSet(){const o=$('#s_o').value.trim(),p=$('#s_p').value.trim(),r=parseFloat($('#s_r').value);
+ if(!p)return toast('Enter the PG name',1);if(!isFinite(r)||r<0)return toast('Enter a valid rate per unit',1);
+ S.owner=o;S.pg=p;S.rate=r;save();toast('Settings saved');render()}
+function doExp(){exp=JSON.stringify(S);render();toast('Backup created')}
+function cpy(){const t=$('#bk');if(!t.value)return toast('Create a backup first',1);t.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}toast(ok?'Copied':'Selected: press and hold to copy',!ok)}
+function doImp(){const raw=$('#bk').value.trim();let d;
+ try{d=clean(JSON.parse(raw))}catch(e){return toast('That is not a valid backup',1)}
+ if(!d)return toast('Backup is missing data',1);
+ exp=raw;ask('Replace all current data with this backup?','Restore',()=>{S=d;save();exp='';toast('Backup restored');render()})}
+function fresh(){ask('Remove all tenants, readings and expenses? Room numbers and settings stay.','Remove',()=>{S.rooms.forEach(r=>{r.t=null});S.rec={};S.exp=[];save();toast('Sample data removed');render()})}
+function resetAll(){ask('Erase ALL data, including rooms and settings?','Erase',()=>{S=Object.assign(sample(),{rooms:[],rec:{},exp:[],nid:1,eid:1,pg:'My PG'});save();exp='';render()})}
+function render(){if(edit&&!R(edit))edit=null;
+ $('#app').innerHTML={home:home,rooms:rooms,meter:meter,ledger:ledger,setup:setup,report:report}[tab]();
+ $('#nav').innerHTML=TABS.map(t=>'<button class="'+(t[0]===tab||(tab==='report'&&t[0]==='ledger')?'on':'')+'" onclick="go(\''+t[0]+'\')"><span>'+t[1]+'</span>'+t[2]+'</button>').join('');
+ $('#ov').innerHTML=(edit!==null?sheet():'')+(xs?xsheet():'')+(dlg?'<div class="ovl dl"><div class="dialog"><p>'+esc(dlg.text)+'</p><div class="acts"><button class="btn pri" onclick="dlgYes()">'+esc(dlg.yes)+'</button><button class="btn gh" onclick="dlgNo()">Cancel</button></div></div></div>':'')}
+render();
+if(typeof navigator!=='undefined'&&'serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'))addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})});
+</script></body></html>
